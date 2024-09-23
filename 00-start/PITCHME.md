@@ -2,14 +2,14 @@
 
 ### 📚 You will learn
 
-- Installing Cypress
 - Installing Playwright
+- Installing Cypress
 - Configuration and project options
 - Documentation
 
 ---
 
-## Quick check: Node.js
+## Quick check: Node.js version
 
 ```bash
 $ node -v
@@ -22,31 +22,103 @@ If you need to install Node, see [Basics Requirements](https://github.com/bahmut
 
 ---
 
-## Todo: make a new project and add Cypress
+## Quick check: versions
 
-Create a new folder
+You can use [available-versions](https://github.com/bahmutov/available-versions) NPM package to quickly list the published package versions.
 
-- `cd /tmp`
-- `mkdir example`
-- `cd example`
-- `npm init --yes`
-- `npm install -D cypress`
+```
+$ npx available-versions cypress
+...
+13.13.3                     a month
+13.14.0                     a month
+13.14.1                     25 days
+13.14.2                     19 days    latest, dev
+
+$ npx available-versions playwright
+...
+1.47.1                      10 days
+1.47.2                      3 days     latest
+```
 
 +++
 
-### Cypress bin
+## Release frequency
 
-When you run `npm install cypress` it creates a "cypress" alias in the `node_modules/.bin" folder. You can see all tools that install aliases (depending on the platform)
+- Cypress https://on.cypress.io/changelog
+- Playwright https://github.com/microsoft/playwright/releases
 
-```text
-$ ls node_modules/.bin
-cypress			nanoid			rollup			sshpk-verify		vite
-esbuild			prettier		server-test		start-server-and-test	wait-on
-extract-zip		ps-tree			sshpk-conv		start-test
-is-ci			rimraf			sshpk-sign		uuid
+---
+
+## Todo: scaffold Playwright
+
+In the folder with [bahmutov/cy-vs-pw-example-todomvc](https://github.com/bahmutov/cy-vs-pw-example-todomvc) repo
+
+```
+$ git checkout a1
+$ npm install
+$ npm init playwright@latest
 ```
 
-Let's run Cypress alias
+Pick folder `pw` for E2E tests and use JavaScript for the specs.
+
++++
+
+## Todo: inspect the created files
+
+Playwright installation creates:
+
+- `playwright.config.js`
+- `pw/example.spec.js`
+- `tests-examples/demo-todo-app.spec.js`
+
+Let's look at each file 👀
+
+🤔 Have any other files been modified?
+
++++
+
+## Todo: use just the Chromium browser
+
+- modify the `playwright.config.js` to run the tests on the single bundled Chromium browser
+
++++
+
+## Todo: test the local app
+
+- modify the `pw/example.spec.js`
+  - have a single test that visits `localhost:3000` and confirms the page title
+- look up test command by `npx playwright help` and `npx playwright <command> help`
+
+**Note:** start the application in the separate terminal
+
++++
+
+## Report vs Trace
+
+- run the test and look at the test report
+- run the test with a trace and look at the test report
+
+---
+
+## Tip: cleanup
+
+Before going to the next step, here is how to clean up modified files:
+
+```
+# remove changes
+$ git reset --hard
+# remove new / untracked files
+$ git clean -d -f
+```
+
+---
+
+## Todo: install Cypress
+
+Install Cypress in the project
+
+- `git checkout a2`
+- `npm install -D cypress`
 
 +++
 
@@ -64,40 +136,13 @@ $(npm bin)/cypress open
 
 +++
 
-## 💡 Pro tip
+## Scaffold Cypress files
 
-In `package.json` I usually have
+Open Cypress once using `npx cypress open`
 
-```json
-{
-  "scripts": {
-    "cy:open": "cypress open",
-    "cy:run": "cypress run"
-  }
-}
-```
-
-And I use `npm run cy:open`
-
-**Tip:** read [https://glebbahmutov.com/blog/organize-npm-scripts/](https://glebbahmutov.com/blog/organize-npm-scripts/)
-
----
-
-![First time you open Cypress](./img/start1.png)
+Inspect the created files
 
 +++
-
-![Scaffold E2E tests](./img/start2.png)
-
-+++
-
-![Created E2E configuration files](./img/start3.png)
-
-+++
-
-![Scaffold example specs](./img/start4.png)
-
----
 
 ## Cypress files and folders
 
@@ -110,37 +155,6 @@ Read blog post [Cypress is just ...](https://glebbahmutov.com/blog/cypress-is/)
 
 Note:
 This section shows how Cypress scaffolds its files and folders. Then the students can ignore this folder. This is only done once to show the scaffolding.
-
----
-
-Look at the scaffolded example test files (specs).
-
-Run specs for topics that look interesting
-
----
-
-## Configuration
-
-```js
-// cypress.config.js
-// https://on.cypress.io/configuration
-module.exports = defineConfig({
-  // common settings
-  viewportWidth: 800,
-  viewportHeight: 1000,
-  e2e: {
-    // end-to-end settings
-    baseUrl: 'http://localhost:3000'
-  },
-  component: {
-    // component testing settings
-    devServer: {
-      framework: 'create-react-app',
-      bundler: 'webpack'
-    }
-  }
-})
-```
 
 ---
 
@@ -159,110 +173,75 @@ Repo [github.com/bahmutov/cly](https://github.com/bahmutov/cly)
 
 ---
 
-## [glebbahmutov.com/cypress-examples](https://glebbahmutov.com/cypress-examples/)
+## First Cypress spec
 
-![Cypress examples site](./img/cypress-examples.png)
+Modify the spec `cypress/e2e/spec.cy.js`
 
----
-
-## First spec
-
-Let's test our TodoMVC application. Create a new spec file
-
-- `cypress/e2e/spec.cy.js`
-
-**tip:** the default spec pattern is `cypress/e2e/**/*.cy.{js,jsx,ts,tsx}`
-
-+++
-
-Type into the `spec.cy.js` our first test
-
-```javascript
-it('loads', () => {
-  cy.visit('localhost:3000')
-})
-```
-
-+++
-
-- make sure you have started TodoMVC in another terminal with `npm start`
-- click on "spec.cy.js" in Cypress GUI
-
-+++
-
-## Questions
-
-- what does Cypress do?
-- what happens when the server is down? <!-- .element: class="fragment" -->
-  - stop the application server running in folder `todomvc`
-  - reload the tests
-
----
-
-![Switch browser](./img/switch-browser.png)
-
----
-
-Add a special `/// ...` comment
-
-```javascript
+```js
+// @ts-check
 /// <reference types="cypress" />
-it('loads', () => {
-  cy.visit('localhost:3000')
+
+it('has title', () => {
+  // visit the page "localhost:3000"
+  // https://on.cypress.io/visit
+  // the page title should have text "cy-vs-pw-example-todomvc"
+  // https://on.cypress.io/title
 })
 ```
 
-- why do we need `reference types ...` line?
++++
 
-Note:
-By having "reference" line we tell editors that support it (VSCode, WebStorm) to use TypeScript definitions included in Cypress to provide intelligent code completion. Hovering over any `cy` command brings helpful tooltips.
+## Run Cypress test
+
+Cypress is really geared towards either working on the specs or running them headlessly
+
+```
+$ npx cypress open
+$ npx cypress run
+```
+
+Run your spec headlessly.
+
+🤔 How do you see what the test is doing?
 
 +++
+
+## Enable videos
+
+```js
+const { defineConfig } = require('cypress')
+
+module.exports = defineConfig({
+  e2e: {
+    video: true
+  }
+})
+```
+
+💡 Screenshots are taken automatically on failures
+
+---
 
 ## IntelliSense
 
-![IntelliSense in VSCode](./img/cy-get-intellisense.jpeg)
-
-+++
-
-Every Cypress command and every assertion
-
-![Should IntelliSense](./img/should-intellisense.jpeg)
-
-+++
-
-Using `ts-check`
-
-```javascript
-/// <reference types="cypress" />
-// @ts-check
-it('loads', () => {
-  cy.visit('localhost:3000')
-})
-```
-
-- what happens if you add `ts-check` line and misspell `cy.visit`?
-
-Note:
-The check works really well in VSCode editor. I am not sure how well other editors support Cypress type checks right out of the box.
+- look at the `///` comment. This tells your code editor about Cypress globals like `cy`
+- the comment `// @ts-check` tells your code editor to show any type mismatches in the specs
 
 ---
 
-## Docs
+## Docs and help
 
-Your best friend is [https://docs.cypress.io/](https://docs.cypress.io/) search
+- Cypress documentation is at https://docs.cypress.io/
+- Playwright documentation is at https://playwright.dev/docs/intro
 
-![Doc search](./img/docs-search.png)
+When starting, read the introductions and the guides. Then consult the API docs as necessary.
 
 +++
 
-## TODO: Find at docs.cypress.io
+## Chat and support
 
-- Cypress main features and how it works docs <!-- .element: class="fragment" -->
-- core concepts <!-- .element: class="fragment" -->
-- command API <!-- .element: class="fragment" -->
-  - how many commands are there?
-- frequently asked questions <!-- .element: class="fragment" -->
+- https://aka.ms/playwright/discord
+- https://on.cypress.io/discord
 
 +++
 
@@ -274,49 +253,13 @@ https://on.cypress.io/<command>
 
 The above URL goes right to the documentation for that command.
 
-+++
-
-## Todo: find at docs.cypress.io
-
-- documentation for `click`, `type`, and `contains` commands
-- assertions examples <!-- .element: class="fragment" -->
-
----
-
-## Todo: Find at docs.cypress.io
-
-- examples
-  - recipes
-  - tutorial videos
-  - example applications
-  - blogs
-  - FAQ
-- Cypress changelog and roadmap
-
-Note:
-Students should know where to find information later on. Main resources is the api page [https://on.cypress.io/api](https://on.cypress.io/api)
-
----
-
-## 🏆 [cypress.tips/search](https://cypress.tips/search)
-
-![Cypress tips search](./img/cypress-tips-search.png)
-
-+++
-
-## Todo: find using cypress.tips/search
-
-- Cypress assertion examples
-- URL and location examples
-- Cypress tips bog posts
-- Videos on making Cypress tests run faster
-
 ---
 
 ## 🏁 Conclusions
 
-- set up IntelliSense
-- use Docs at [https://docs.cypress.io/](https://docs.cypress.io/)
-- use my [cypress.tips/search](https://cypress.tips/search)
+- use the config file
+- which browser?
+- headed vs headless mode
+- documentation is there
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [01-basic](?p=01-basic) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [01-basic](?p=01-basic) chapter
