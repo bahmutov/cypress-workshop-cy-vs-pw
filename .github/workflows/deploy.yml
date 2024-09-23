@@ -4,7 +4,9 @@ on:
     branches:
       - main
 jobs:
-  test:
+  deploy:
+    permissions:
+      contents: write
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout 🛎
