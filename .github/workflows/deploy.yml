@@ -10,9 +10,14 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v4
 
+      # https://github.com/actions/setup-node
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies 📦
+        run: npm ci
 
       # build and deploy new version of the slides
       - name: Build slides 🏗
