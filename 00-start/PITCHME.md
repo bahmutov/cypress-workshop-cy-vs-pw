@@ -198,11 +198,18 @@ Cypress is really geared towards either working on the specs or running them hea
 ```
 $ npx cypress open
 $ npx cypress run
+$ npx cypress help <command>
 ```
 
 Run your spec headlessly.
 
 🤔 How do you see what the test is doing?
+
++++
+
+## Pick a browser
+
+![Chromium versions](./img/browsers.png)
 
 +++
 
