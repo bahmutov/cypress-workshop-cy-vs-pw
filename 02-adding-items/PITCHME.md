@@ -1,358 +1,307 @@
-## ☀️ Part 2: Adding items tests
+## Adding items tests
 
 ### 📚 You will learn
 
-- the common commands for working with page elements
-- organizing the test code using Mocha hooks
+- failing tests on app error
+- testing adding items
 
 ---
 
-## What kind of tests?
-
-- discussion 🗣️: what would you test in the TodoMVC app?
-
-Note:
-Longer tests, adding items then deleting one for example. Adding items via GUI and observing communication with the server. Adding items then reloading the page.
-
----
-
-## Let's test
-
-- keep `todomvc` app running
-- open `cypress/e2e/02-adding-items/spec.js` in your text editor
-- click file `02-adding-items/spec.js` in Cypress
-
-+++
-
-## ⚠️ Warning ⚠️
-
-The tests we are about to write are NOT resetting the previously added Todo items. Delete the Todo items before each test manually.
-
-We will reset the previously saved Todo items in section "4 Reset State".
-
-## ⚠️ Warning ⚠️
+- clean up the existing code
+  - `git reset --hard`
+  - `git clean -d -f`
+- `git checkout a7`
+- `npm install`
 
 ---
 
-## Todo: Make this test work
+## App crashes on purpose
 
 ```js
-// cypress/e2e/02-adding-items/spec.js
-it('adds two items', () => {
-  // visit the site
-  // https://on.cypress.io/visit
-  // repeat twice
-  //    get the input field
-  //    https://on.cypress.io/get
-  //    type text and "enter"
-  //    https://on.cypress.io/type
-  //    assert that the new Todo item
-  //    has been added added to the list
-  // cy.get(...).should('have.length', 2)
-})
+// app.js
+
+throw new Error('App crash')
+
+// Once the above error causes your test to fail
+// can you verify if the test runner catches errors
+// throws asynchronously or rejected promises?
+
+// setTimeout(() => {
+//   throw new Error('Async app crash')
+// }, 10)
+//
+// Promise.reject(new Error('rejected promise'))
 ```
 
-**💡 tip** use `cy.get`, `cy.type`, `cy.contains`, `cy.click`, remember `https://on.cypress.io/<command>`
+---
 
-Note:
-Draw distinction between commands and assertions, show how commands can be chained,
-each continues to work with the subject of the previous command. Assertions do
-not change the subject.
-
-+++
-
-## Todo: mark the first item completed
+## Fail Cypress test on app error
 
 ```js
-it('can mark an item as completed', () => {
-  // visit the site
-  // adds a few items
-  // marks the first item as completed
-  // https://on.cypress.io/get
-  // https://on.cypress.io/find
-  // https://on.cypress.io/first
-  // confirms the first item has the expected completed class
-  // confirms the other items are still incomplete
-  // check the number of remaining items
+// cypress/e2e/spec.cy.js
+
+// commands operate with respect to the "baseUrl"
+// defined in the cypress.config.js file
+
+beforeEach(() => {
+  cy.request('POST', '/reset', { todos: [] })
+})
+
+it('has title', () => {
+  console.log('running test "%s"', Cypress.currentTest.titlePath.join('/'))
+  cy.visit('/')
+  cy.get('body.loaded')
+  cy.get('.todo-list li').should('have.length', 0)
 })
 ```
 
-+++
-
-## Refactor code 1/3
-
-- visit the page before each test
-
-Note:
-Avoid duplicate `cy.visit('localhost:3000')` command at the start of each test.
+Can you fail the test on all 3 types of app errors?
 
 +++
 
-## Refactor code 2/3
+![Cypress fails the test on error](./img/cy-error.png)
 
-- move the url into `cypress.config.js`
-
-**💡 tip** look at [https://on.cypress.io/configuration](https://on.cypress.io/configuration)
+Cypress should automatically fail the test on any thrown error.
 
 +++
 
-## Refactor code 3/3
+## Bonus question: how to ignore app errors in Cypress?
 
-- make a helper function to add todo item
-
-**💡 tip** it is just JavaScript
-
-Note:
-Move `addItem` function into a separate file and import from the spec file. It is just JavaScript, and Cypress bundles each spec file, so utilities can have `cy...` commands too!
-
-+++
-
-## Run multiple specs
-
-`experimentalRunAllSpecs: true` config option.
+See https://glebbahmutov.com/blog/sanity-test/#tests
 
 ---
 
-## Todo: delete an item
-
-```javascript
-it('can delete an item', () => {
-  // adds a few items
-  // deletes the first item
-  // use force: true because we don't want to hover
-  // confirm the deleted item is gone from the dom
-  // confirm the other item still exists
-})
-```
-
----
-
-## Todo: use random text
-
-```javascript
-it('adds item with random text', () => {
-  // use a helper function with Math.random()
-  // or Cypress._.random() to generate unique text label
-  // add such item
-  // and make sure it is visible and does not have class "completed"
-})
-```
-
----
-
-## Todo: no items
+## Fail Playwright test on app error
 
 ```js
-it('starts with zero items', () => {
-  // check if the list is empty initially
-  //   find the selector for the individual TODO items in the list
-  //   use cy.get(...) and it should have length of 0
-  //   https://on.cypress.io/get
-  //   ".should('have.length', 0)"
-  //   or ".should('not.exist')"
+// pw/example.spec.js
+
+const { test, expect } = require('@playwright/test')
+
+// commands operate with respect to the "baseUrl"
+// defined in the playwright.config.js file
+
+test.beforeEach(async ({ request }) => {
+  await request.post('/reset', { data: { todos: [] } })
+})
+
+test('has title', async ({ page }, testInfo) => {
+  console.log('running test "%s"', testInfo.titlePath.join('/'))
+
+  // if the application throws an unhandled error
+  // we want to fail the test. Make sure to register
+  // the error callback before visiting the page
+
+  await page.goto('/')
+  await expect(page.locator('body')).toHaveClass('loaded')
+  await expect(page.locator('.todo-list li')).toHaveCount(0)
 })
 ```
 
----
++++
 
-## Default assertions
+Playwright v1.40 fixed the async errors
 
 ```js
-cy.get('li.todo')
-// is the same as
-cy.get('li.todo').should('exist')
+// if the application throws an unhandled error
+// we want to fail the test. Make sure to register
+// the error callback before visiting the page
+page.on('pageerror', (exception) => {
+  throw new Error('App threw an error')
+})
 ```
 
-See [cy.get Assertions](https://on.cypress.io/get#Assertions)
+You still need to register the event listener
+
+---
+
+## Test adding an item
+
+- clean up the existing code
+  - `git reset --hard`
+  - `git clean -d -f`
+- `git checkout b1`
+- `npm install`
 
 +++
 
-What if you do not know if an element exists? You can disable the built-in assertions using a "dummy" `should(cb)` assertion.
+## Playwright test
 
 ```js
-cy.get('li.todo').should(() => {})
-// or using the bundled Lodash
-cy.get('li.todo').should(Cypress._.noop)
+// pw/example.spec.js
+
+const { test, expect } = require('@playwright/test')
+
+// start each test with zero todos
+test.beforeEach(async ({ request }) => {
+  await request.post('/reset', { data: { todos: [] } })
+})
+
+// Tip: read the "Actions" Guide before implementing this test
+// https://playwright.dev/docs/input
+// and the "Locators" guide
+// https://playwright.dev/docs/locators
+test('adding todos', async ({ page }) => {
+  // visit the application
+  // wait for the body.loaded element to be visible
+  // there should be zero todo items
+  // find the input element using the placeholder text
+  // and type "Write code" followed by "Enter" press
+  // there should be one todo item on the page
+  // the todo item label should have the entered text
+})
 ```
 
-Todo: write test "disables the built-in assertion".
-
----
-
-## Todo: number of items increments by one
-
-How do you check if an unknown number of items grows by one? There might be no items at first.
-
-Implement the test "adds one more todo item"
-
----
-
-## 💡 Pro tips
-
-- resize the viewport in `cypress.config.js`
-
----
-
-## Checking the saved items
-
-The application saves the items in "todomvc/data.json" file. Can we verify that a new item has been saved?
-
-Todo: write the test "saves the added todos"
-
-**Tip:** use [cy.task](https://on.cypress.io/task) in the plugins file or [cy.readFile](https://on.cypress.io/readfile)
-
----
-
-## Adding blank item
-
-The application does not allow adding items with blank titles. What happens when the user does it? Hint: open DevTools console.
+Locating elements https://playwright.dev/docs/locators
 
 +++
-
-## Todo: finish this test
 
 ```js
-it('does not allow adding blank todos', () => {
-  // https://on.cypress.io/catalog-of-events#App-Events
-  cy.on('uncaught:exception', () => {
-    // check e.message to match expected error text
-    // return false if you want to ignore the error
-  })
-
-  // try adding an item with just spaces
+test('adding todos', async ({ page }) => {
+  // visit the application
+  await page.goto('/')
+  await expect(page.locator('body.loaded')).toBeVisible()
+  await expect(page.locator('.todo-list li')).toHaveCount(0)
+  await page.getByPlaceholder('What needs to be done?').fill('Write code')
+  await page.getByPlaceholder('What needs to be done?').press('Enter')
+  await expect(page.locator('.todo-list li')).toHaveCount(1)
+  await expect(page.locator('.todo-list li label')).toHaveText('Write code')
 })
 ```
 
 ---
 
-## Bonus
-
-Unit tests vs end-to-end tests
-
-### Unit tests
-
-```javascript
-import add from './add'
-test('add', () => {
-  expect(add(2, 3)).toBe(5)
-})
-```
-
-- arrange - action - assertion
-
-+++
-
-### End-to-end tests
-
-```javascript
-const addItem = (text) => {
-  cy.get('.new-todo').type(`${text}{enter}`)
-}
-it('can mark items as completed', () => {
-  const ITEM_SELECTOR = 'li.todo'
-  addItem('simple')
-  addItem('difficult')
-  cy.contains(ITEM_SELECTOR, 'simple')
-    .should('exist')
-    .find('input[type="checkbox"]')
-    .check()
-  // have to force click because the button does not appear unless we hover
-  cy.contains(ITEM_SELECTOR, 'simple').find('.destroy').click({ force: true })
-  cy.contains(ITEM_SELECTOR, 'simple').should('not.exist')
-  cy.get(ITEM_SELECTOR).should('have.length', 1)
-  cy.contains(ITEM_SELECTOR, 'difficult').should('be.visible')
-})
-```
-
-command - assertion - command - assertion (CACA pattern)
-
-- **tip** check out `cy.pause` command
-
-Note:
-Revisit the discussion about what kind of tests one should write. E2E tests can cover a lot of features in a single test, and that is a recommended practice. If a test fails, it is easy to debug it, and see how the application looks during each step.
-
-+++
-
-### Unit vs component vs E2E
-
-- if you are describing how code works: **unit test**
-- if you are testing a component that runs in the browser: **component test**
-- if you are describing how code is used by the user: **end-to-end test**
-
-+++
-
-## Todo: run unit tests in Cypress
-
-Does this test run in Cypress?
-
-```javascript
-import add from './add'
-test('add', () => {
-  expect(add(2, 3)).toBe(5)
-})
-```
-
-+++
-
-### Bonus
-
-- Core concepts [https://on.cypress.io/writing-and-organizing-tests](https://on.cypress.io/writing-and-organizing-tests)
-
----
-
-Organize tests using folder structure and spec files
-
-```text
-cypress/integration/
-  featureA/
-    first-spec.js
-    second-spec.js
-  featureB/
-    another-spec.js
-    errors-spec.js
-```
-
-**Tip:** splitting longer specs into smaller ones allows to run them faster in parallel mode https://glebbahmutov.com/blog/split-spec/
-
-+++
-
-Organize tests inside a spec using Mocha functions
+## Cypress test
 
 ```js
-describe('Feature A', () => {
-  beforeEach(() => {})
+// cypress/e2e/spec.cy.js
 
-  it('works', () => {})
+// start each test with zero todos
+beforeEach(() => {
+  cy.request('POST', '/reset', { todos: [] })
+})
 
-  it('handles error', () => {})
+// Tip: look at the following commands before writing this test
+// https://on.cypress.io/visit
+// https://on.cypress.io/get
+// https://on.cypress.io/type
+// https://glebbahmutov.com/cypress-examples/commands/assertions.html
+it('adding todos', () => {
+  // visit the application
+  // wait for the body.loaded element to be visible
+  // there should be zero todo items
+  // find the input element using the placeholder text
+  // and type "Write code" followed by "Enter" press
+  // there should be one todo item on the page
+  // the todo item label should have the entered text
+})
+```
 
-  // context is alias of describe
-  context('in special case', () => {
-    it('starts correctly', () => {})
+Selecting elements: https://on.cypress.io/best-practices#Selecting-Elements
 
-    it('works', () => {})
-  })
++++
+
+```js
+it('adding todos', () => {
+  cy.visit('/')
+  cy.get('body.loaded').should('be.visible')
+  cy.get('.todo-list li').should('have.length', 0)
+  cy.get('[placeholder="What needs to be done?"]').type('Write code{enter}')
+  cy.get('.todo-list li label')
+    .should('have.length', 1)
+    .and('have.text', 'Write code')
+})
+```
+
+---
+
+## Refactor the tests
+
+Let's remove code duplication
+
+- clean up the existing code
+  - `git reset --hard`
+  - `git clean -d -f`
+- `git checkout b2`
+- `npm install`
+
++++
+
+## Reuse Playwright locators
+
+```js
+test('adding todos', async ({ page }) => {
+  // avoid duplicator code by reusing the same locator objects
+  await page.goto('/')
+  await expect(page.locator('body.loaded')).toBeVisible()
+  await expect(page.locator('.todo-list li')).toHaveCount(0)
+  await page.getByPlaceholder('What needs to be done?').fill('Write code')
+  await page.getByPlaceholder('What needs to be done?').press('Enter')
+  await expect(page.locator('.todo-list li')).toHaveCount(1)
+  await expect(page.locator('.todo-list li label')).toHaveText('Write code')
 })
 ```
 
 +++
 
-## Support file
+```js
+test('adding todos', async ({ page }) => {
+  // avoid duplicator code by reusing the same locator objects
+  const input = page.getByPlaceholder('What needs to be done?')
+  const todos = page.locator('.todo-list li label')
 
-Support file is included before each spec file.
-
-```html
-<script src="cypress/support/e2e.js"></script>
-<script src="cypress/e2e/spec.js"></script>
+  await page.goto('/')
+  await page.locator('body.loaded').waitFor()
+  await expect(todos).toHaveCount(0)
+  await input.fill('Write code')
+  await input.press('Enter')
+  await expect(todos).toHaveText(['Write code'])
+})
 ```
 
-**💡 Tip:** Want to reset the data and visit the site before each test? Put the commands into `beforeEach` hook inside the support file.
+Playwright solution
 
 ---
 
-## 🏁 Write your tests like a user
+## Remove Cypress code duplication
 
-- go through UI
-- validate the application after actions
+```js
+it('adding todos', () => {
+  // reuse the same CSS selectors
+  cy.visit('/')
+  cy.get('body.loaded').should('be.visible')
+  cy.get('.todo-list li').should('have.length', 0)
+  cy.get('[placeholder="What needs to be done?"]').type('Write code{enter}')
+  cy.get('.todo-list li label')
+    .should('have.length', 1)
+    .and('have.text', 'Write code')
+})
+```
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [03-selector-playground](?p=03-selector-playground) chapter
++++
+
+```js
+it('adding todos', () => {
+  // reuse the same CSS selectors
+  const input = '[placeholder="What needs to be done?"]'
+  const todos = '.todo-list li label'
+
+  cy.visit('/')
+  cy.get('body.loaded').should('be.visible')
+  cy.get(todos).should('not.exist')
+  cy.get(input).type('Write code{enter}')
+  cy.get(todos).should('have.length', 1).and('have.text', 'Write code')
+})
+```
+
+Cypress solution
+
+---
+
+## 🏁 Adding
+
+- make your tests fail on the unexpected app errors
+- select elements using best practices
+- simplify the code
+
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [03-selector-playground](?p=03-selector-playground) chapter
