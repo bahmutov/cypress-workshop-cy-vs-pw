@@ -342,4 +342,4 @@ Cypress JSON fixture solution
 - use JSON fixtures to quickly set the initial state
 - avoids UI test duplication
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [04-reset-state](?p=04-reset-state) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [04-test-ui](?p=04-test-ui) chapter
