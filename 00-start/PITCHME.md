@@ -91,6 +91,8 @@ Let's look at each file 👀
 
 **Note:** start the application in the separate terminal
 
+💡 Use Playwright [UI mode](https://playwright.dev/docs/test-ui-mode) `npx playwright test --ui` while modifying the spec file.
+
 +++
 
 ## Report vs Trace
@@ -189,6 +191,8 @@ it('has title', () => {
 })
 ```
 
+💡 Run the test while editing the spec with `npx cypress open`
+
 +++
 
 ## Run Cypress test
@@ -207,9 +211,9 @@ Run your spec headlessly.
 
 +++
 
-## Pick a browser
+## Cypress: pick a browser
 
-![Chromium versions](./img/browsers.png)
+![Cypress browser switcher](./img/switch-browser.png)
 
 +++
 
@@ -259,6 +263,12 @@ https://on.cypress.io/<command>
 ```
 
 The above URL goes right to the documentation for that command.
+
+---
+
+## Playwright vs Cypress browsers
+
+![Chromium versions](./img/browsers.png)
 
 ---
 
