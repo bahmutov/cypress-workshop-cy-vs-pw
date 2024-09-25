@@ -278,6 +278,20 @@ await <locator>.waitFor({
 
 Documentation https://playwright.dev/docs/api/class-locator#locator-wait-for
 
++++
+
+## PW .waitFor vs Cypress assertions
+
+```js
+await <locator>.waitFor()
+// same as
+cy.get(<locator>).should('be.visible')
+
+await <locator>.waitFor({ state: 'attached' })
+// same as
+cy.get(<locator>)
+```
+
 ---
 
 ## Todo: Cypress spec

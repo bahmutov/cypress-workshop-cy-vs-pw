@@ -304,4 +304,4 @@ Cypress solution
 - select elements using best practices
 - simplify the code
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [03-selector-playground](?p=03-selector-playground) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [03-completing-items](?p=03-completing-items) chapter
