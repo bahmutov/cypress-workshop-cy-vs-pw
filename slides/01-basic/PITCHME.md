@@ -385,4 +385,4 @@ module.exports = defineConfig({
 - you can make API requests to prepare the data before the test
 - do not hard-code the base URL
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-cy-vs-pw#contents) or jump to the [02-adding-items](?p=02-adding-items) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [02-adding-items](?p=02-adding-items) chapter
