@@ -4,7 +4,7 @@
 
 - [github.com/bahmutov/cypress-workshop-cy-vs-pw](https://github.com/bahmutov/cypress-workshop-cy-vs-pw)
 
-Jump to: [00-start](?p=00-start), [01-basic](?p=01-basic), [02-adding-items](?p=02-adding-items), [03-selector-playground](?p=03-selector-playground), [04-reset-state](?p=04-reset-state), [05-network](?p=05-network), [06-app-data-store](?p=06-app-data-store), [07-ci](?p=07-ci), [08-retry-ability](?p=08-retry-ability), [09-custom-commands](?p=09-custom-commands), [10-component-testing](?p=10-component-testing), [end](?p=end)
+Jump to: [00-start](?p=00-start), [01-basic](?p=01-basic), [02-adding-items](?p=02-adding-items), [03-completing-items](?p=03-completing-items), [04-test-ui](?p=04-test-ui), [05-hover](?p=05-hover), [end](?p=end)
 
 +++
 
@@ -34,40 +34,27 @@ I will try.
 
 ---
 
-## What we are going to cover 1/2
+## What we are going to cover
 
 - example TodoMVC
   - web app, data store, REST calls
-- basic page load test
-- selector playground
-- resetting state before the test
-- any questions
-
-+++
-
-## What we are going to cover 2/2
-
+- basic tests using Pw and Cy
+- using JSON fixture files
+- making HTTP requests
 - network spying and stubbing, fixtures
-- running E2E tests on CI / Test Replay
-- retry-ability and flake-free tests
-- custom commands
-- component testing
+- controlling the application clock
+- assertions and retries
 - any questions
 
 ---
 
 ## Schedule 🕰
 
-- Unit 1: 08.30am - 10.00am ☕️
-- Unit 2: 10.30am - 12.00pm
-- Lunch Break: 12.00pm to 1.00pm
-- Unit 3: 1.00pm - 2.30pm ☕️
-- Unit 4: 3.00pm - 4.30pm
+- 55 minutes of work
+- 5 minutes of rest
 - time for questions during the workshop and after each section
 
 +++
-
-<!-- Please: if you have experience with Cypress.io, help others during the workshop 🙏 -->
 
 ## Poll 1 🗳️: have you used Cypress before?
 
