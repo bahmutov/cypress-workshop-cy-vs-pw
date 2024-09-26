@@ -375,4 +375,4 @@ cy.get(todos).should('have.length', items.length)
 - Cypress can format its Command Log messages
   - it can also indent commands, but only inside custom commands
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [05-network](?p=05-network) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [05-hover](?p=05-hover) chapter
