@@ -1,4 +1,4 @@
-## ☀️ Part 5: Control network calls
+## Control network calls
 
 ### 📚 You will learn
 
@@ -8,27 +8,17 @@
 
 +++
 
-- keep `todomvc` app running
-- open `cypress/e2e/05-network/spec.js`
-- read [cy.intercept](https://on.cypress.io/intercept) API documentation
-
-📖 Fun read: [Cypress Network Requests Guide](https://on.cypress.io/network-requests) and [https://glebbahmutov.com/blog/cypress-intercept-problems/](https://glebbahmutov.com/blog/cypress-intercept-problems/)
+- clean up the existing code
+  - `git reset --hard`
+  - `git clean -d -f`
+- `git checkout d1`
+- `npm install`
 
 ---
 
-## Situation
+## Application makes network calls
 
-- there is **no resetting** the state before each test
-- the test passes but _something is wrong_
-
-```javascript
-it('starts with zero items', () => {
-  cy.visit('/')
-  cy.get('li.todo').should('have.length', 0)
-})
-```
-
-![Should have failed](./img/test-passes-but-this-is-wrong.png)
+![GET /todos at startup](./img/get-todos.png)
 
 +++
 
