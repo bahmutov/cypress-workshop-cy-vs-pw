@@ -165,12 +165,365 @@ describe('App', () => {
 
 ---
 
+## Spy on network call
+
+Instead of stopping the network call, let it travel to the server. Use the response from the test.
+
+- `get checkout d2`
+
++++
+
+In the next lessons:
+
+- **stub** the initial `GET /todos`
+- **spy** on `POST /todos` calls
+
+---
+
+## Playwright network spy
+
+```js
+// pw/todos.spec.js
+const { test, expect } = require('@playwright/test')
+
+test.describe('App', () => {
+  test.beforeEach(async ({ page }) => {
+    // intercept the route "/todos"
+    // - "GET /todos" respond with an empty list
+    // - otherwise let the request continue
+    await page.goto('/')
+  })
+
+  test('shows the items with css class', async ({ page }) => {
+    // confirm the application has finished loading
+    // by checking the presence of an element with class "loaded"
+    // there should be no todos
+    // spy on the "POST /todos" call
+    // type new todo "Learn testing" followed by Enter
+    // confirm the new todo was sent over the network
+    // get the request data and confirm the known properties
+    // like "title" and "completed"
+    // the "id" property should be a string
+  })
+})
+```
+
+See https://playwright.dev/docs/network
+
++++
+
+```js
+// pw/todos.spec.js
+
+const { test, expect } = require('@playwright/test')
+
+test.describe('App', () => {
+  test.beforeEach(async ({ page }) => {
+    // intercept the route "/todos"
+    // - "GET /todos" respond with an empty list
+    // - otherwise let the request continue
+    await page.route('/todos', (route) => {
+      if (route.request().method() === 'GET') {
+        return route.fulfill({
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify([])
+        })
+      } else {
+        return route.continue()
+      }
+    })
+    await page.goto('/')
+  })
+
+  test('shows the items with css class', async ({ page }) => {
+    // confirm the application has finished loading
+    // by checking the presence of an element with class "loaded"
+    await page.locator('.loaded').waitFor()
+    // there should be no todos
+    await expect(page.locator('.todo-list li')).toHaveCount(0)
+    // spy on the "POST /todos" call
+    const postTodo = page.waitForRequest((req) => {
+      return req.method() === 'POST' && req.url().endsWith('/todos')
+    })
+    // type new todo "Learn testing" followed by Enter
+    await page.locator('.new-todo').fill('Learn testing')
+    await page.locator('.new-todo').press('Enter')
+    // confirm the new todo was sent over the network
+    const request = await postTodo
+    // get the request data and confirm the known properties
+    // like "title" and "completed"
+    // the "id" property should be a string
+    const sent = request.postDataJSON()
+    expect(sent, 'request data').toEqual({
+      title: 'Learn testing',
+      completed: false,
+      id: expect.any(String)
+    })
+    const response = await request.response()
+    expect(response?.status(), 'status code').toEqual(201)
+  })
+})
+```
+
+---
+
+## Cypress network spy
+
+```js
+// cypress/e2e/todos.cy.js
+
+describe('App', () => {
+  beforeEach(() => {
+    // stub the "GET /todos" network calls
+    // and return an empty array
+    cy.visit('/')
+  })
+
+  it('sends new todo object', () => {
+    const todos = '.todo-list li'
+    // confirm the application has finished loading
+    // by checking the presence of an element with class "loaded"
+    // and there are no items
+
+    // spy on the "POST /todos" call
+    // give the spy an alias "post-todo"
+    // https://on.cypress.io/intercept
+    // https://on.cypress.io/as
+    // type new todo "Learn testing" followed by Enter
+
+    // confirm the new todo was sent over the network
+    // get the request body and confirm the known properties
+    // like "title" and "completed"
+    // Tip: use the Chai assertion "deep.include"
+    // https://glebbahmutov.com/cypress-examples/commands/assertions.html
+    // confirm the request body includes the property "id"
+    // which should be a string
+    // get the network intercept with the new todo again
+    // and confirm the server responds with status code 201
+    // Tip: you wait for the network intercept to happen
+    // and then can use cy.get('@alias') to retrieve it multiple times
+  })
+})
+```
+
+See https://on.cypress.io/network-requests
+
++++
+
+```js
+// cypress/e2e/todos.cy.js
+
+describe('App', () => {
+  beforeEach(() => {
+    // stub the "GET /todos" network calls
+    // and return an empty array
+    cy.intercept('GET', '/todos', { body: [] })
+    cy.visit('/')
+  })
+
+  it('sends new todo object', () => {
+    const todos = '.todo-list li'
+    // confirm the application has finished loading
+    cy.get('.loaded')
+    // and there are no items
+    cy.get(todos).should('have.length', 0)
+    // spy on the "POST /todos" call
+    // give the spy an alias "post-todo"
+    // https://on.cypress.io/intercept
+    // https://on.cypress.io/as
+    cy.intercept('POST', '/todos').as('post-todo')
+    cy.get('.new-todo').type('Learn testing{enter}')
+    // confirm the new todo was sent over the network
+    cy.wait('@post-todo')
+      // get the request body and confirm the known properties
+      // like "title" and "completed"
+      // Tip: use the Chai assertion "deep.include"
+      // https://glebbahmutov.com/cypress-examples/commands/assertions.html
+      .its('request.body')
+      .should('deep.include', {
+        title: 'Learn testing',
+        completed: false
+      })
+      // confirm the request body includes the property "id"
+      // which should be a string
+      .its('id')
+      .should('be.a', 'string')
+    // get the network intercept with the new todo again
+    // and confirm the server responds with status code 201
+    // Tip: you wait for the network intercept to happen
+    // and then can use cy.get('@alias') to retrieve it multiple times
+    cy.get('@post-todo').its('response.statusCode').should('equal', 201)
+  })
+})
+```
+
+Cypress solution
+
+---
+
+## Use network data
+
+- `git checkout d3`
+
+Let's spy on the network call and confirm the app shows the data correctly
+
+---
+
+## Playwright test
+
+```js
+// pw/todos.spec.js
+
+const { test, expect } = require('@playwright/test')
+
+test.describe('App', () => {
+  test.beforeEach(async ({ page }) => {
+    // spy on the network calls to "/todos" endpoint
+    await page.goto('/')
+  })
+
+  test('shows the same number of items as sent by the server', async ({
+    page
+  }) => {
+    // confirm the network call has happened
+    // and get the response as json
+    // confirm the page shows the same number of todo items
+    // as send by the server
+  })
+})
+```
+
++++
+
+```js
+// pw/todos.spec.js
+
+const { test, expect } = require('@playwright/test')
+
+test.describe('App', () => {
+  let load
+
+  test.beforeEach(async ({ page }) => {
+    // spy on the network calls to "/todos" endpoint
+    load = page.waitForRequest('/todos')
+    await page.goto('/')
+  })
+
+  test('shows the same number of items as sent by the server', async ({
+    page
+  }) => {
+    // confirm the network call has happened
+    // and get the response as json
+    const request = await load
+    const response = await request.response()
+    const todos = await response?.json()
+    // confirm the page shows the same number of todo items
+    // as send by the server
+    await expect(page.locator('.todo-list li')).toHaveCount(todos.length)
+  })
+})
+```
+
+---
+
+## Cypress test
+
+```js
+// cypress/e2e/todos.cy.js
+
+describe('App', () => {
+  beforeEach(() => {
+    // spy on the network call "GET /todos"
+    // give the network intercept an alias
+    cy.visit('/')
+  })
+
+  it('shows the same number of items as sent by the server', () => {
+    // wait for the network alias
+    // get its response body and confirm
+    // it is an array
+    // grab its length and pass it to the cy.then callback
+    // inside the callback get the number of Todo items
+    // on the page, it should equal to the number of items
+    // returned by the server
+    // https://on.cypress.io/then
+  })
+})
+```
+
++++
+
+```js
+// cypress/e2e/todos.cy.js
+
+describe('App', () => {
+  beforeEach(() => {
+    // spy on the network call "GET /todos"
+    // give the network intercept an alias
+    cy.intercept('GET', '/todos').as('load')
+    cy.visit('/')
+  })
+
+  it('shows the same number of items as sent by the server', () => {
+    // wait for the network alias
+    // get its response body and confirm
+    // it is an array
+    // grab its length and pass it to the cy.then callback
+    // inside the callback get the number of Todo items
+    // on the page, it should equal to the number of items
+    // returned by the server
+    // https://on.cypress.io/then
+    cy.wait('@load')
+      .its('response.body')
+      .should('be.an', 'array')
+      .its('length')
+      .then((n) => {
+        cy.get('.todo-list li').should('have.length', n)
+      })
+  })
+})
+```
+
+**Tip:** in Cypress you always pass data that you get from the app using `cy.then(callback)`
+
+---
+
+## Data caching
+
+**Important:** our application and browser cache network data using `ETag` and `If-None-Match` headers. Playwright disables caching automatically. In Cypress you have to control it yourself, see https://glebbahmutov.com/blog/cypress-intercept-problems/
+
++++
+
+## Disable network caching in Cypress
+
+```js
+beforeEach(() => {
+  // disable network caching using a Chrome Debugger Protocol command
+  // by using "cy.wrap" command we ensure that the promise returned
+  // by the Cypress.automation method resolves before proceeding
+  // to the next Cypress command
+  cy.wrap(
+    Cypress.automation('remote:debugger:protocol', {
+      command: 'Network.setCacheDisabled',
+      params: {
+        cacheDisabled: true
+      }
+    })
+  )
+  // spy on the network call "GET /todos"
+  // give the network intercept an alias
+  cy.intercept('GET', '/todos').as('load')
+  cy.visit('/')
+})
+```
+
 ---
 
 ## 🏁 Spy and stub the network from your tests
 
-- confirm the REST calls
-- stub random data
+- stub network calls to control the data
+- spy on network calls during tests
+- network caching might affect the testing
 - 🎓 [Cypress Network Testing Exercises](https://cypress.tips/courses/network-testing) course
 
 ➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [06-app-data-store](?p=06-app-data-store) chapter

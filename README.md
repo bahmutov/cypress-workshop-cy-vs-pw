@@ -51,6 +51,8 @@ Completing items | [03-completing-items.md](slides/03-completing-items/PITCHME.m
 Test UI | [04-test-ui.md](slides/04-test-ui/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=04-test-ui)
 Hover | [05-hover.md](slides/05-hover/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=05-hover)
 The end | [end](slides/end/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=end)
+Network testing | [06-network.md](slides/06-network/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=06-network)
+The end | [end](slides/end/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=end)
 <!-- prettier-ignore-end -->
 
 ## Additional information
