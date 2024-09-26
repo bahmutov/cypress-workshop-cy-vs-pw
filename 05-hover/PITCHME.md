@@ -158,4 +158,4 @@ cy.get(todos).eq(1).realHover().find('.destroy').click()
 - Playwright has built-in native events like `hover`
 - Cypress can send native events via a plugin
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [05-network](?p=05-network) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [06-network](?p=06-network) chapter
