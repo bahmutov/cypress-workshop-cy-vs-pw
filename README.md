@@ -54,6 +54,7 @@ The end | [end](slides/end/PITCHME.md) | [link](https://glebbahmutov.com/cypress
 Network testing | [06-network.md](slides/06-network/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=06-network)
 Clock | [07-clock.md](slides/07-clock/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=07-clock)
 Retries | [08-retries.md](slides/08-retries/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=08-retries)
+App access | [09-app-access.md](slides/09-app-access/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=09-app-access)
 The end | [end](slides/end/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=end)
 <!-- prettier-ignore-end -->
 
