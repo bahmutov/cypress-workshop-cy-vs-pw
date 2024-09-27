@@ -121,6 +121,8 @@ cy.window()
   .should('have.length', 2)
 ```
 
+Cypress solution
+
 +++
 
 ![Cypress solution](./img/cy.png)

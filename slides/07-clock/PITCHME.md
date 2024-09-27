@@ -33,24 +33,25 @@ setInterval(() => {
 
 ```js
 // pw/clock.spec.js
-describe('App', () => {
-  it('fetches todos every 60 seconds', () => {
-    // spy on the "GET /todos" requests and
-    // give them an alias "loadTodos"
-    // https://on.cypress.io/intercept
-    cy.intercept('GET', '/todos').as('loadTodos')
-    // control the application's clock
-    // https://on.cypress.io/clock
-    cy.visit('/')
-    // confirm the application called the "loadTodos" endpoint
-    // Tip: you can even use a short 100ms timeout
-    cy.wait('@loadTodos', { timeout: 100 })
-    // advance the application's clock by 61 seconds
-    // https://on.cypress.io/tick
-    // confirm the application called the "loadTodos" endpoint
+const { test, expect } = require('@playwright/test')
 
-    // advance the application's clock by another 61 seconds
-    // confirm the application called the "loadTodos" endpoint
+test.describe('App', () => {
+  test('fetches todos every 60 seconds', async ({ page }) => {
+    // install synthetic clock using clock.install
+    // https://playwright.dev/docs/clock
+
+    // spy on the "/todos" network request
+    await page.goto('/')
+    // confirm the application fetches the "/todos" endpoint
+
+    // spy on the "/todos" network request again
+    // advance the fake timers by 61 seconds
+    // using clock.runFor
+    // and confirm the application fetches the "/todos" endpoint again
+
+    // spy on the "/todos" network request again
+    // advance the fake timers by 61 seconds
+    // and confirm the application fetches the "/todos" endpoint 3rd time
   })
 })
 ```
