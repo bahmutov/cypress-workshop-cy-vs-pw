@@ -4,7 +4,7 @@
 
 - [github.com/bahmutov/cypress-workshop-cy-vs-pw](https://github.com/bahmutov/cypress-workshop-cy-vs-pw)
 
-Jump to: [00-start](?p=00-start), [01-basic](?p=01-basic), [02-adding-items](?p=02-adding-items), [03-completing-items](?p=03-completing-items), [04-test-ui](?p=04-test-ui), [05-hover](?p=05-hover), [06-network](?p=06-network), [end](?p=end)
+Jump to: [00-start](?p=00-start), [01-basic](?p=01-basic), [02-adding-items](?p=02-adding-items), [03-completing-items](?p=03-completing-items), [04-test-ui](?p=04-test-ui), [05-hover](?p=05-hover), [06-network](?p=06-network), [07-clock](?p=07-clock), [08-retries](?p=08-retries), [09-app-access](?p=09-app-access), [end](?p=end)
 
 +++
 

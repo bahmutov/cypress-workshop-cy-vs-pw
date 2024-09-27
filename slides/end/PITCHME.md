@@ -1,25 +1,47 @@
 ## 🔖 Workshop lessons
 
-- Write E2E tests to mimic user's actions
-- Set the initial state before each test
+- Playwright is a capable E2E test runner
+  - test the UI
+  - mock network calls
+  - control the clock
 
 +++
 
 ## 🔖 Workshop lessons
 
-- Spy / stub API calls and application code
+- Cypress is a capable E2E test runner
+  - test the UI
+  - mock network calls
+  - control the clock
 
 +++
 
 ## 🔖 Workshop lessons
 
-- Anything you can do from DevTools console, you can do from your Cypress tests
+- There is difference in how Pw and Cy work
+  - Pw = Node.js
+  - Cy = browser
+
++++
+
+## 🔖 Workshop lessons
+
+- There is difference in how Pw and Cy work
+  - Pw = `await command | assertion`
+  - Cy = `command.command.assertion`
+
++++
+
+## 🤔 Which one to pick
+
+- Pick the test runner you know best
 
 +++
 
 ## The End 🎉
 
-Thank you for learning E2E testing with [Cypress.io](https://www.cypress.io)
+Thank you for learning E2E testing with [Cypress.io](https://www.cypress.io) and [Playwright](https://playwright.dev/)
 
-- [https://docs.cypress.io/](https://docs.cypress.io/) and [https://on.cypress.io/discord](https://on.cypress.io/discord)
-- **My resources** [cypress.tips](https://cypress.tips) and [https://cypresstips.substack.com/](https://cypresstips.substack.com/), https://glebbahmutov.com/cypress-examples, https://www.youtube.com/glebbahmutov, https://glebbahmutov.com/discord
+- https://docs.cypress.io/ https://playwright.dev/docs/intro
+
+- **My resources** https://cypress.tips/courses/cypress-vs-playwright is the full hands-on course with lessons and videos
