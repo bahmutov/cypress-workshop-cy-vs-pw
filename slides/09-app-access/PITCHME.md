@@ -14,6 +14,10 @@ SET_TODOS(state, todos) {
 
 +++
 
+![Local storage items](./img/local.png)
+
++++
+
 ## Check out the branch
 
 - `git checkout e4`
