@@ -8,7 +8,7 @@
 
 +++
 
-![GET /todos at startup](./img/out.png)
+![GET /todos at startup](./img/get-todos.png)
 
 +++
 
@@ -19,6 +19,12 @@
 - `npm install`
 
 ---
+
+## Stub network calls
+
+Let's mock the `GET /todos` network call and respond with the JSON fixture data.
+
++++
 
 ## Important ⚠️
 
@@ -158,6 +164,8 @@ describe('App', () => {
   })
 })
 ```
+
+Cypress network stub solution
 
 +++
 
@@ -357,7 +365,7 @@ describe('App', () => {
 })
 ```
 
-Cypress solution
+Cypress network spy solution
 
 ---
 
