@@ -94,6 +94,8 @@ Each step can be debugged!
 
 How can you confirm the prices are sorted?
 
+- `git checkout c5`
+
 +++
 
 From each Todo item you need:
@@ -144,6 +146,8 @@ cy.get(todos).should(($el) => {
 
 We cannot simplify the Playwright code. But we can rewrite Cypress `should(callback)` into a series of separate steps.
 
+**Note:** this exercise is in the branch `c6`
+
 +++
 
 ```js
@@ -178,7 +182,7 @@ I have plugin [cypress-map](https://github.com/bahmutov/cypress-map) that can ma
 
 +++
 
-Rewrite the `cy.then(callback)...` commands using `cypress-map` queries
+Rewrite the `cy.then(callback)...` commands using `cypress-map` queries. **Note:** this exercise is in the branch `c7`
 
 ```js
 cy.get(todos)
@@ -204,6 +208,12 @@ Each step is now shown in the Command Log and can be debugged
 ![Prices are 1, 4, 59](./img/prices.png)
 
 Prices should be $1, $4, and $59
+
++++
+
+## Different solutions = different retries
+
+**Note:** this exercise is in the branch `c8`
 
 +++
 
