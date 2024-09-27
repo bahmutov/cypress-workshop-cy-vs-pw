@@ -5,10 +5,11 @@
 - how to spy on / stub network calls
 - how to wait for the network calls from tests
 - how to use network calls in assertions
+- how to delay a network call
 
 +++
 
-![GET /todos at startup](./img/out.png)
+![GET /todos at startup](./img/get-todos.png)
 
 +++
 
@@ -19,6 +20,12 @@
 - `npm install`
 
 ---
+
+## Stub network calls
+
+Let's mock the `GET /todos` network call and respond with the JSON fixture data.
+
++++
 
 ## Important ⚠️
 
@@ -158,6 +165,8 @@ describe('App', () => {
   })
 })
 ```
+
+Cypress network stub solution
 
 +++
 
@@ -357,7 +366,7 @@ describe('App', () => {
 })
 ```
 
-Cypress solution
+Cypress network spy solution
 
 ---
 
@@ -519,6 +528,130 @@ beforeEach(() => {
 
 ---
 
+## Slow down network request
+
+Let's spy on the `GET /todos` network request and slow it down to test the loading element.
+
+![Loading element](./img/loading.png)
+
++++
+
+## Slow down network call in Playwright
+
+- `git checkout d5`
+
+```js
+// pw/loader.spec.js
+
+const { test } = require('@playwright/test')
+
+test.describe('App', () => {
+  test('shows a loader', async ({ page }) => {
+    // intercept the "/todos" call
+    // and delay it by 2 seconds before
+    // allowing it to continue to the server
+
+    // spy on the "/todos" network call
+    // visit the page after setting up the network spies
+    await page.goto('/')
+    // confirm the loading element is visible
+    // confirm the loading element is hidden
+    // confirm the "/todos" call has happened
+    // and the "class=loaded" element is visible quickly after
+  })
+})
+```
+
+**Tip:** read the https://playwright.dev/docs/api/class-route documentation.
+
++++
+
+```js
+// pw/loader.spec.js
+
+const { test } = require('@playwright/test')
+
+test.describe('App', () => {
+  test('shows a loader', async ({ page }) => {
+    // intercept the "/todos" call
+    // and delay it by 2 seconds before
+    // allowing it to continue to the server
+    await page.route('/todos', (route) => {
+      setTimeout(() => {
+        route.continue()
+      }, 2000)
+    })
+    // spy on the "/todos" network call
+    const loading = page.waitForResponse('/todos')
+    // visit the page after setting up the network spies
+    await page.goto('/')
+    // confirm the loading element is visible
+    await page.locator('.loading').waitFor({ state: 'visible' })
+    // confirm the loading element is hidden
+    await page.locator('.loading').waitFor({ state: 'hidden' })
+    // confirm the "/todos" call has happened
+    await loading
+    // and the "class=loaded" element is visible quickly after
+    await page.locator('.loaded').waitFor({ timeout: 100 })
+  })
+})
+```
+
+Playwright solution
+
+---
+
+## Delay network call in Cypress
+
+```js
+// cypress/e2e/loader.cy.js
+
+describe('App', () => {
+  it('shows a loader', () => {
+    // intercept the "GET /todos" network call
+    // let the call continue to the server
+    // but delay it by 2 seconds
+    // This should give the loading element plenty of time
+    cy.visit('/')
+    // confirm the loading element is visible
+    // and then becomes hidden
+
+    // confirm the app finishes loading really quickly
+    // after the loader becomes hidden
+  })
+})
+```
+
+**Hint:** read https://on.cypress.io/intercept documentation
+
++++
+
+```js
+// cypress/e2e/loader.cy.js
+
+describe('App', () => {
+  it('shows a loader', () => {
+    // intercept the "GET /todos" network call
+    // let the call continue to the server
+    // but delay it by 2 seconds
+    // This should give the loading element plenty of time
+    cy.intercept('GET', '/todos', () => Cypress.Promise.delay(2000))
+    cy.visit('/')
+    // confirm the loading element is visible
+    // and then becomes hidden
+    cy.get('.loading').should('be.visible')
+    cy.get('.loading').should('not.be.visible')
+    // confirm the app finishes loading really quickly
+    // after the loader becomes hidden
+    cy.get('.loaded', { timeout: 100 })
+  })
+})
+```
+
+Cypress network request delay example
+
+---
+
 ## 🏁 Spy and stub the network from your tests
 
 - stub network calls to control the data
@@ -526,4 +659,4 @@ beforeEach(() => {
 - network caching might affect the testing
 - 🎓 [Cypress Network Testing Exercises](https://cypress.tips/courses/network-testing) course
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [06-app-data-store](?p=06-app-data-store) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [07-clock](?p=07-clock) chapter
