@@ -52,6 +52,8 @@ Test UI | [04-test-ui.md](slides/04-test-ui/PITCHME.md) | [link](https://glebbah
 Hover | [05-hover.md](slides/05-hover/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=05-hover)
 The end | [end](slides/end/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=end)
 Network testing | [06-network.md](slides/06-network/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=06-network)
+Clock | [07-clock.md](slides/07-clock/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=07-clock)
+Retries | [08-retries.md](slides/08-retries/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=08-retries)
 The end | [end](slides/end/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=end)
 <!-- prettier-ignore-end -->
 
