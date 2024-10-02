@@ -50,8 +50,11 @@ I will try.
 
 ## Schedule 🕰
 
-- 55 minutes of work
-- 5 minutes of rest
+- 9:00 start
+- 10:30 coffee break
+- 12:00 lunch break
+- 14:30 coffee break
+- ~16:00 the end
 - time for questions during the workshop and after each section
 
 +++
