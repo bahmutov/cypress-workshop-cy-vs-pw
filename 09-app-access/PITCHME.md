@@ -134,4 +134,4 @@ Cypress solution
 - Playwright can evaluate JavaScript to return a copy of the app's data from the browser
 - Cypress can directly access the application's data and code
 
-➡️ Go to the [end](?p=end) chapter
+➡️ Go to the [10-ci](?p=10-ci) chapter

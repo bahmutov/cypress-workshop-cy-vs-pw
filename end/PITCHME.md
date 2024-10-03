@@ -36,6 +36,8 @@
 
 - Pick the test runner you know best
 
+**Tip:** can you finish every programming exercise in this workshop?
+
 +++
 
 ## The End 🎉
