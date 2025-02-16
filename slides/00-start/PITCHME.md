@@ -83,15 +83,52 @@ Let's look at each file 👀
 
 +++
 
-## Todo: test the local app
+## Todo: test the local app using Playwright
+
+**Important:** start the application in the separate terminal
+
+💡 Start Playwright in [UI mode](https://playwright.dev/docs/test-ui-mode) `npx playwright test --ui` while modifying the spec file.
+
++++
 
 - modify the `pw/example.spec.js`
-  - have a single test that visits `localhost:3000` and confirms the page title
-- look up test command by `npx playwright help` and `npx playwright <command> help`
+- have a single test that:
+  1. visits `localhost:3000`
+  2. confirms the page title
 
-**Note:** start the application in the separate terminal
+**Tip:** look up test command by `npx playwright help` and `npx playwright <command> help`
 
-💡 Use Playwright [UI mode](https://playwright.dev/docs/test-ui-mode) `npx playwright test --ui` while modifying the spec file.
+Note:
+
+```js
+// pw/example.spec.js
+const { test, expect } = require('@playwright/test')
+
+test('has title', async ({ page }) => {
+  await page.goto('http://localhost:3000/')
+
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle('cy-vs-pw-example-todomvc')
+})
+```
+
++++
+
+## Playwright Test
+
+```js
+// pw/example.spec.js
+const { test, expect } = require('@playwright/test')
+
+test('has title', async ({ page }) => {
+  await page.goto('http://localhost:3000/')
+
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle('cy-vs-pw-example-todomvc')
+})
+```
+
+**Question:** do you get IntelliSense when hovering over `test` and `expect`?
 
 +++
 
@@ -99,6 +136,9 @@ Let's look at each file 👀
 
 - run the test and look at the test report
 - run the test with a trace and look at the test report
+
+Note:
+Execute the above single spec with `npx playwright test` then `npx playwright show-report`. Run the test with trace on `npx playwright test --trace on`.
 
 ---
 
@@ -171,7 +211,7 @@ $ npx @bahmutov/cly init -b
 $ npx @bahmutov/cly init --typescript
 ```
 
-Repo [github.com/bahmutov/cly](https://github.com/bahmutov/cly)
+Repo [github.com/bahmutov/cly](https://github.com/bahmutov/cly) and 📝 blog post [Cypress vs Playwright Installation](https://dev.to/sebastianclavijo/the-test-drama-the-opening-salvo-cypress-vs-playwright-installation-the-good-the-bad-and-4hm6).
 
 ---
 
@@ -192,6 +232,20 @@ it('has title', () => {
 ```
 
 💡 Run the test while editing the spec with `npx cypress open`
+
+Note:
+
+```js
+it('has title', () => {
+  // visit the page "localhost:3000"
+  // https://on.cypress.io/visit
+  cy.visit('http://localhost:3000/')
+
+  // the page title should have text "cy-vs-pw-example-todomvc"
+  // https://on.cypress.io/title
+  cy.title().should('equal', 'cy-vs-pw-example-todomvc')
+})
+```
 
 +++
 

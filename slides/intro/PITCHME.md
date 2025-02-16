@@ -44,6 +44,7 @@ I will try.
 - network spying and stubbing, fixtures
 - controlling the application clock
 - assertions and retries
+- component testing (React)
 - any questions
 
 ---
@@ -86,6 +87,7 @@ We will use [bahmutov/cy-vs-pw-example-todomvc](https://github.com/bahmutov/cy-v
 - each exercise starts in the prepared branch
 - `git checkout a1` for example
 - `npm install`
+- `npx playwright install` (if using Playwright in the current lesson)
 
 ---
 
@@ -129,6 +131,7 @@ Let us look at the application.
 
 - `cd cy-vs-pw-example-todomvc`
 - `git checkout main`
+- `npm install`
 - `npm start`
 - `open localhost:3000`
 
