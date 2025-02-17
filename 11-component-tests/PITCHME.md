@@ -126,7 +126,7 @@ test('shows a button', async ({ mount }) => {
 })
 ```
 
-**Tip:** run the component spec in UI mode with `npm run test-ct -- --ui`
+**Tip:** run the component spec in UI mode with `npm run test-ct -- --ui`. **Important ⚠️**: the `ctPort` in the Pw config must point at an unused port.
 
 +++
 
@@ -148,6 +148,127 @@ test('shows a button', async ({ mount }) => {
 +++
 
 ![Playwright component test](./img/pw.png)
+
+---
+
+## TODO: test other props
+
+```js
+// src/components/Button.cy.jsx
+
+it('passes custom class name', () => {
+  // mount the Button with the customClass prop set to "myClass"
+  // confirm the page contains a button with the class "myClass"
+})
+
+it('sets the test id', () => {
+  // mount the Button with the testId prop set to "myTestId"
+  // confirm the button with the text "Test button" has
+  // the data-test, name, and id set to "myTestId"
+})
+```
+
++++
+
+```js
+// src/components/Button.cy.jsx
+it('passes custom class name', () => {
+  cy.mount(<Button label="Test button" customClass="myClass" />)
+  cy.get('button.myClass')
+})
+
+it('sets the test id', () => {
+  cy.mount(<Button label="Test button" testId="myTestId" />)
+  cy.contains('button', 'Test button')
+    .should('have.id', 'myTestId')
+    .and('have.attr', 'name', 'myTestId')
+    .and('have.attr', 'data-test', 'myTestId')
+})
+```
+
++++
+
+![Button tests Cypress](./img/button-tests-cy.png)
+
++++
+
+```js
+// src/components/Button.spec.jsx
+
+test('passes custom class name', async ({ mount }) => {
+  // mount the Button with the customClass prop set to "myClass"
+  // confirm the page contains a button with the class "myClass"
+})
+
+test('sets the test id', async ({ mount }) => {
+  // mount the Button with the testId prop set to "myTestId"
+  // confirm the button with the text "Test button" has
+  // the data-test, name, and id set to "myTestId"
+})
+```
+
++++
+
+```js
+// src/components/Button.spec.jsx
+
+test('passes custom class name', async ({ mount }) => {
+  const component = await mount(
+    <Button label="Test button" customClass="myClass" />
+  )
+  await expect(component).toHaveClass(/myClass/)
+})
+
+test('sets the test id', async ({ mount }) => {
+  const component = await mount(
+    <Button label="Test button" testId="myTestId" />
+  )
+  await expect(component).toHaveAttribute('data-test', 'myTestId')
+  await expect(component).toHaveAttribute('name', 'myTestId')
+  await expect(component).toHaveAttribute('id', 'myTestId')
+})
+```
+
++++
+
+![Button tests Playwright](./img/button-tests-pw.png)
+
+---
+
+## Config differences for component testing
+
+Cypress has a single config for both E2E and component testing
+
+```js
+// cypress.config.js
+import { defineConfig } from 'cypress'
+export default defineConfig({
+  e2e: {},
+  component: {}
+})
+```
+
++++
+
+Playwright has separate configs and test syntax
+
+```js
+// Playwright e2e config file
+import { defineConfig, devices } from '@playwright/test'
+// Playwright component config file
+import { defineConfig, devices } from '@playwright/experimental-ct-react17'
+```
+
++++
+
+Playwright provides different `test` and `expect` for component testing
+
+```js
+// Playwright E2E specs
+import { test, expect } from '@playwright/test'
+// Playwright component spec
+import { test, expect } from '@playwright/experimental-ct-react17'
+```
 
 ---
 
