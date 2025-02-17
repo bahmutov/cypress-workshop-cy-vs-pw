@@ -272,6 +272,104 @@ import { test, expect } from '@playwright/experimental-ct-react17'
 
 ---
 
+## Use constants
+
+- `git checkout g2`
+- `npm install && npx playwright install`
+
+Finish this Cypress component test
+
+```js
+// src/components/Button.cy.jsx
+it('creates a Back button with an arrow image', () => {
+  // mount the Button with the type prop set to "back"
+  //
+  // confirm that inside the button element with class "btn"
+  // there is an image with alt text "Go back"
+  // and the image loads its source without errors
+})
+```
+
++++
+
+**Tip:** look at the image element's properties in the DevTools to check if it successfully loads (network, decoding, rendering)
+
++++
+
+![Component DOM structure](./img/dom.png)
+
++++
+
+## Cypress component test
+
+```js
+import Button from './Button'
+import { BUTTON_TYPES } from './Button'
+it('creates a Back button with an arrow image', () => {
+  // mount the Button with the type prop set to "back"
+  cy.mount(<Button label="Back" type={BUTTON_TYPES.BACK} />)
+  // confirm that inside the button element with class "btn"
+  // there is an image with alt text "Go back"
+  // and the image loads its source without errors
+  cy.get('button.btn')
+    .find('img[alt="Go back"]')
+    .should('have.prop', 'naturalWidth')
+    .should('be.greaterThan', 0)
+})
+```
+
++++
+
+![Back button image test](./img/check-image.png)
+
+---
+
+## Use constants
+
+Finish this Playwright component test
+
+```js
+// src/components/Button.spec.jsx
+import { test, expect } from '@playwright/experimental-ct-react17'
+import Button from './Button'
+test('creates a Back button with an arrow image', async ({ mount }) => {
+  // mount the Button with the type prop set to "back"
+  // confirm that inside the button element with class "btn"
+  // there is an image with alt text "Go back"
+  // and the image loads its source without errors
+})
+```
+
++++
+
+```js
+test('creates a Back button with an arrow image', async ({ mount }) => {
+  const component = await mount(
+    <Button label="Back" type={BUTTON_TYPES.BACK} />
+  )
+  const image = component.locator('img[alt="Go back"]')
+  await expect(async () => {
+    const width = await image.evaluate((node) => node.naturalWidth)
+    expect(width, 'image width').toBeGreaterThan(0)
+  }).toPass()
+  // this solution could also work in this case
+  await expect(image).not.toHaveJSProperty('naturalWidth', 0)
+})
+```
+
++++
+
+![Playwright component test](./img/pw-natural-width.png)
+
++++
+
+## Questions:
+
+- what do you see when you run Cypress component test?
+- what do you see when you run Playwright component test?
+
+---
+
 ## 🏁 Conclusions
 
 - Cypress can run component tests the same way as its regular E2E tests
