@@ -8,6 +8,26 @@
 
 ---
 
+## Component testing
+
+- [https://on.cypress.io/component](https://on.cypress.io/component)
+  - [https://glebbahmutov.com/blog/how-cypress-component-testing-was-born/](https://glebbahmutov.com/blog/how-cypress-component-testing-was-born/)
+- [https://playwright.dev/docs/test-components](https://playwright.dev/docs/test-components)
+
++++
+
+## Playwright status
+
+- `@playwright/experimental-ct-react`
+- `@playwright/experimental-ct-svelte`
+- `@playwright/experimental-ct-vue`
+
++++
+
+![Cypress v14 component testing status](./img/cy-support.png)
+
+---
+
 ## Button component
 
 ```jsx
