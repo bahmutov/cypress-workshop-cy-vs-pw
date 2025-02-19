@@ -390,6 +390,103 @@ test('creates a Back button with an arrow image', async ({ mount }) => {
 
 ---
 
+## Passing functional props
+
+```js
+const Button = ({
+  customClass,
+  label,
+  onClick,
+}) => {
+  return (
+    <button
+      className={`btn${buttonTypeClass}${buttonSize}${extraClass}`}
+      onClick={onClick}
+```
+
+Let's test the `onClick` prop when the user clicks the button.
+
++++
+
+## Finish the Playwright test
+
+- branch `g3`
+- `npm install && npx playwright install`
+
+```js
+// src/components/Button.spec.jsx
+test('callback prop is called on click', async ({ mount }) => {
+  // keep track of the clicked state
+  let clicked = false
+  // mount the Button with the onClick prop set to a small function
+  // that changes "clicked" to true
+  //
+  // click the button component
+  // confirm the mock function was called
+  // by checking if the "clicked" state is true
+})
+```
+
+**Question:** what do you see during the test?
+
++++
+
+```js
+// src/components/Button.spec.jsx
+test('callback prop is called on click', async ({ mount }) => {
+  let clicked = false
+  const component = await mount(
+    <Button
+      label="Test button"
+      onClick={() => {
+        clicked = true
+      }}
+    />
+  )
+  await component.click()
+  expect(clicked, 'clicked').toBeTruthy()
+})
+```
+
++++
+
+![Playwright stub](./img/clicked.png)
+
++++
+
+## Finish the Cypress test
+
+```js
+// src/components/Button.cy.jsx
+it('callback prop is called on click', () => {
+  // mount the Button with the onClick function stub
+  // https://on.cypress.io/stub
+  // give the stub an alias "onClick"
+  // https://on.cypress.io/as
+  //
+  // click the button component
+  //
+  // confirm the stub function was called
+})
+```
+
++++
+
+```js
+// src/components/Button.cy.jsx
+it('callback prop is called on click', () => {
+  cy.mount(<Button label="Test button" onClick={cy.stub().as('onClick')} />)
+  cy.get('button').click()
+  cy.get('@onClick').should('have.been.calledOnce')
+})
+```
+
++++
+
+![Cypress callback](./img/stub.png)
+
+---
+
 ## 🏁 Conclusions
 
 - Cypress can run component tests the same way as its regular E2E tests
