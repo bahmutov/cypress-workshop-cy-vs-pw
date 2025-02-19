@@ -8,6 +8,26 @@
 
 ---
 
+## Component testing
+
+- [https://on.cypress.io/component](https://on.cypress.io/component)
+  - [https://glebbahmutov.com/blog/how-cypress-component-testing-was-born/](https://glebbahmutov.com/blog/how-cypress-component-testing-was-born/)
+- [https://playwright.dev/docs/test-components](https://playwright.dev/docs/test-components)
+
++++
+
+## Playwright status
+
+- `@playwright/experimental-ct-react`
+- `@playwright/experimental-ct-svelte`
+- `@playwright/experimental-ct-vue`
+
++++
+
+![Cypress v14 component testing status](./img/cy-support.png)
+
+---
+
 ## Button component
 
 ```jsx
@@ -367,6 +387,103 @@ test('creates a Back button with an arrow image', async ({ mount }) => {
 
 - what do you see when you run Cypress component test?
 - what do you see when you run Playwright component test?
+
+---
+
+## Passing functional props
+
+```js
+const Button = ({
+  customClass,
+  label,
+  onClick,
+}) => {
+  return (
+    <button
+      className={`btn${buttonTypeClass}${buttonSize}${extraClass}`}
+      onClick={onClick}
+```
+
+Let's test the `onClick` prop when the user clicks the button.
+
++++
+
+## Finish the Playwright test
+
+- branch `g3`
+- `npm install && npx playwright install`
+
+```js
+// src/components/Button.spec.jsx
+test('callback prop is called on click', async ({ mount }) => {
+  // keep track of the clicked state
+  let clicked = false
+  // mount the Button with the onClick prop set to a small function
+  // that changes "clicked" to true
+  //
+  // click the button component
+  // confirm the mock function was called
+  // by checking if the "clicked" state is true
+})
+```
+
+**Question:** what do you see during the test?
+
++++
+
+```js
+// src/components/Button.spec.jsx
+test('callback prop is called on click', async ({ mount }) => {
+  let clicked = false
+  const component = await mount(
+    <Button
+      label="Test button"
+      onClick={() => {
+        clicked = true
+      }}
+    />
+  )
+  await component.click()
+  expect(clicked, 'clicked').toBeTruthy()
+})
+```
+
++++
+
+![Playwright stub](./img/clicked.png)
+
++++
+
+## Finish the Cypress test
+
+```js
+// src/components/Button.cy.jsx
+it('callback prop is called on click', () => {
+  // mount the Button with the onClick function stub
+  // https://on.cypress.io/stub
+  // give the stub an alias "onClick"
+  // https://on.cypress.io/as
+  //
+  // click the button component
+  //
+  // confirm the stub function was called
+})
+```
+
++++
+
+```js
+// src/components/Button.cy.jsx
+it('callback prop is called on click', () => {
+  cy.mount(<Button label="Test button" onClick={cy.stub().as('onClick')} />)
+  cy.get('button').click()
+  cy.get('@onClick').should('have.been.calledOnce')
+})
+```
+
++++
+
+![Cypress callback](./img/stub.png)
 
 ---
 
