@@ -487,7 +487,104 @@ it('callback prop is called on click', () => {
 
 ---
 
+## Async functional props
+
+What if the component calls the functional prop `onClick` after some delay?
+
+```js
+// Instead of this
+<button onClick={onClick}>
+// We have an async call
+onClick={() => setTimeout(onClick, 1000)}
+```
+
++++
+
+- check out branch `g4`
+- `npm install`
+- `npx playwright install`
+
+Open test runners in the component testing modes; the `Button.jsx` component calls `onClick` after 1-second delay.
+
++++
+
+## Modify Cypress test
+
+```js
+// src/components/Button.cy.jsx
+it('callback prop is called on click', () => {
+  // mount the Button with the onClick function stub
+  // https://on.cypress.io/stub
+  // give the stub an alias "onClick"
+  // https://on.cypress.io/as
+  cy.mount(<Button label="Test button" onClick={cy.stub().as('onClick')} />)
+  // click the button component
+  cy.get('button').click()
+  // confirm the stub function was called
+  cy.get('@onClick').should('have.been.calledOnce')
+})
+```
+
++++
+
+**Cypress solution:** no changes necessary.
+
+Note:
+The assertion `cy.get('@onClick').should('have.been.calledOnce')` already retries until the stub function is called.
+
++++
+
+![Cypress test when the callback is called after 1 second](./img/cy-async.gif)
+
++++
+
+## Modify Playwright test
+
+```js
+// src/components/Button.spec.jsx
+test('callback prop is called on click', async ({ mount }) => {
+  let clicked = false
+  const component = await mount(
+    <Button
+      label="Test button"
+      onClick={() => {
+        clicked = true
+      }}
+    />
+  )
+  await component.click()
+  expect(clicked, 'clicked').toBeTruthy()
+})
+```
+
+**Tip:** look at auto-retrying assertions in Playwright docs https://playwright.dev/docs/test-assertions#auto-retrying-assertions
+
++++
+
+You must make the assertion `expect(clicked, 'clicked').toBeTruthy()` retry
+
+```js
+await expect
+  .poll(
+    () => {
+      return clicked
+    },
+    { message: 'clicked' }
+  )
+  .toBeTruthy()
+```
+
++++
+
+![Playwright retries checking function stub](./img/pw-async.gif)
+
+---
+
 ## 🏁 Conclusions
 
 - Cypress can run component tests the same way as its regular E2E tests
-- Playwright creates a separate page with the component and "bridges" spec code to interact with the component
+- Playwright creates a separate page with the component and "bridges" spec code to interact with the component <!-- .element: class="fragment" -->
+- Cypress has functional assertions <!-- .element: class="fragment" -->
+- Cypress component test interacts much more directly with the component <!-- .element: class="fragment" -->
+
+➡️ Go to the [end](?p=end) chapter
