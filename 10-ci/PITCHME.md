@@ -209,4 +209,4 @@ trace: Boolean(process.env.CI) ? 'on' : 'on-first-retry',
 - store test artifacts (both successes and failures) <!-- .element: class="fragment" -->
 - run tests in parallel 🏎️ <!-- .element: class="fragment" -->
 
-➡️ Go to the [end](?p=end) chapter
+➡️ Go to the [component testing](?p=11-component-tests) chapter
