@@ -699,6 +699,86 @@ await expect
 
 ---
 
+## Component test page
+
+Each test component is mounted on a special page
+
+- CY `cypress/support/component-index.html`
+- PW `playwright/index.html`
+
+Let's modify it: use branch `g6`
+
++++
+
+## Cy: Green button
+
+```js
+// src/components/Button.cy.jsx
+it('renders a button on green background', () => {
+  cy.mount(<Button label="Green" />)
+  // confirm the button has a green assertion
+  // Tip: use the "have.css" Chai-jQuery assertion
+  // https://www.chaijs.com/plugins/chai-jquery/
+})
+```
+
+**Tip:** modify the style in `cypress/support/component-index.html`
+
++++
+
+![Green button](./img/cy-green-button.png)
+
++++
+
+```js
+// src/components/Button.cy.jsx
+
+it('renders a button on green background', () => {
+  cy.mount(<Button label="Green" />)
+  // confirm the button has a green assertion
+  // Tip: use the "have.css" Chai-jQuery assertion
+  // https://www.chaijs.com/plugins/chai-jquery/
+  cy.get('button').should('have.css', 'background-color', 'rgb(0, 128, 0)')
+})
+```
+
++++
+
+## Pw: Green button
+
+```js
+// src/components/Button.spec.jsx
+
+test('renders a button on green background', async ({ mount }) => {
+  const component = await mount(<Button label="Green" />)
+  // confirm the button has a green background
+  // Tip: use "toHaveCSS" assertion
+  // https://playwright.dev/docs/api/class-locatorassertions
+})
+```
+
+**Tip:** add style to the file `playwright/index.html`
+
++++
+
+```js
+// src/components/Button.spec.jsx
+
+test('renders a button on green background', async ({ mount }) => {
+  const component = await mount(<Button label="Green" />)
+  // confirm the button has a green background
+  // Tip: use "toHaveCSS" assertion
+  // https://playwright.dev/docs/api/class-locatorassertions
+  await expect(component).toHaveCSS('background-color', 'rgb(0, 128, 0)')
+})
+```
+
++++
+
+![Pw green button](./img/pw-green-button.png)
+
+---
+
 ## 🏁 Conclusions
 
 - Cypress can run component tests the same way as its regular E2E tests
