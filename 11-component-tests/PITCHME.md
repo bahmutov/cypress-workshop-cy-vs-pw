@@ -580,6 +580,125 @@ await expect
 
 ---
 
+## Using Sinon.js library with Playwright
+
+Let's add a powerful library for functional spies and stubs to make Playwright component tests easy to write.
+
+- check out branch `g5`
+- `npm install`
+- `npx playwright install`
+
+The dependencies include the `sinon` library
+
++++
+
+## Use Sinon with Playwright
+
+```js
+// use Sinon.js library to create spies and stubs
+// https://sinonjs.org/
+import sinon from 'sinon'
+const sandbox = sinon.createSandbox()
+test.afterEach(() => {
+  // reset all spies and stubs after each test
+  sandbox.restore()
+})
+```
+
++++
+
+Finish the test
+
+```js
+// src/components/Button.spec.jsx
+test('callback prop is called on click', async ({ mount }) => {
+  // mount the Button with the onClick prop set to a small function
+  // that changes "clicked" to true
+  // Tip: create the onClick function stub using the Sinon sandbox
+  // click the button component
+  // confirm the mock function "onClick" was called
+})
+```
+
++++
+
+```js
+// src/components/Button.spec.jsx
+test('callback prop is called on click', async ({ mount }) => {
+  // mount the Button with the onClick prop set to a small function
+  // that changes "clicked" to true
+  const onClick = sandbox.stub()
+  const component = await mount(
+    <Button label="Test button" onClick={onClick} />
+  )
+  // click the button component
+  await component.click()
+  // confirm the mock function "onClick" was called
+  await expect.poll(() => onClick.calledOnce, { message: 'onClick' }).toBe(true)
+})
+```
+
++++
+
+![Checking Sinon stub](./img/pw-sinon.png)
+
++++
+
+## Check call arguments
+
+```js
+test('callback prop is called with arguments', async ({ mount }) => {
+  // the Button component calls the "onClick" prop with a string
+  // confirm the correct string is passed when the button is clicked
+  // Tip: use the "stub.calledOnceWithExactly" method to check
+})
+```
+
++++
+
+```js
+test('callback prop is called with arguments', async ({ mount }) => {
+  // the Button component calls the "onClick" prop with a string
+  // confirm the correct string is passed when the button is clicked
+  // Tip: use the "stub.calledOnceWithExactly" method to check
+  const onClick = sandbox.stub()
+  const component = await mount(
+    <Button label="Test button" onClick={onClick} />
+  )
+  await component.click()
+  await expect
+    .poll(() => onClick.calledOnceWithExactly('Hello from button'), {
+      message: 'onClick'
+    })
+    .toBe(true)
+})
+```
+
++++
+
+## Compare solutions
+
+```js
+// Cypress
+cy.mount(<Button label="Test button" onClick={cy.stub().as('onClick')} />)
+cy.get('button').click()
+cy.get('@onClick').should(
+  'have.been.calledOnceWithExactly',
+  'Hello from button'
+)
+// Playwright
+const onClick = sandbox.stub()
+const component = await mount(<Button label="Test button" onClick={onClick} />)
+await component.click()
+await expect
+  .poll(() => onClick.calledOnceWithExactly('Hello from button'), {
+    message: 'onClick'
+  })
+  .toBe(true)
+```
+
+---
+
 ## 🏁 Conclusions
 
 - Cypress can run component tests the same way as its regular E2E tests
