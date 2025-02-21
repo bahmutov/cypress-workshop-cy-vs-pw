@@ -49,6 +49,16 @@ I will try.
 
 ---
 
+## Example repos
+
+Please clone these repositories, since we will be using through the workshop:
+
+- https://github.com/bahmutov/cy-vs-pw-example-todomvc
+- https://github.com/bahmutov/cy-vs-pw-ci-example
+- https://github.com/bahmutov/taste-the-sauce-vite
+
+---
+
 ## Schedule 🕰
 
 2 Days (Mon, Tue)
@@ -85,9 +95,9 @@ I will try.
 
 ## Example application
 
-We will use [bahmutov/cy-vs-pw-example-todomvc](https://github.com/bahmutov/cy-vs-pw-example-todomvc)
+We will use at first the app in the repo [bahmutov/cy-vs-pw-example-todomvc](https://github.com/bahmutov/cy-vs-pw-example-todomvc)
 
-- each exercise starts in the prepared branch
+- each exercise starts in the prepared branch: `a1`, `a2`, `a3`, etc
 - `git checkout a1` for example
 - `npm install`
 - `npx playwright install` (if using Playwright in the current lesson)
