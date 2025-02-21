@@ -779,6 +779,184 @@ test('renders a button on green background', async ({ mount }) => {
 
 ---
 
+## Component scaffolding
+
+- clone repo `https://github.com/bahmutov/taste-the-sauce-vite`
+- check out branch `g7`
+- `npm install`
+- `npx playwright install`
+
++++
+
+## Try testing `InventoryListItem`
+
+```js
+// src/components/InventoryListItem.cy.jsx
+
+describe('InventoryListItem', () => {
+  // shows the failure when we try mounting a component
+  // that expects to be inside a router
+  it('tries to load one item', () => {
+    const item = InventoryData[3]
+    cy.mount(<InventoryListItem {...item} />)
+  })
+})
+```
+
++++
+
+![Fails to mount](./img/fails.png)
+
++++
+
+**TODO:** mount component inside the router
+
+```js
+it('loads one item (with router)', () => {
+  // take one of the items loaded from the inventory data list
+  // and mount the "InventoryListItem" component
+  // inside a router
+  // <BrowserRouter initialEntries={[]}><Route>...</Route></BrowserRouter>
+  const item = InventoryData[3]
+  // assert that the item's name is there
+  cy.contains('.inventory_item_name', item.name)
+})
+```
+
++++
+
+```js
+it('loads one item (with router)', () => {
+  const item = InventoryData[3]
+  cy.mount(
+    <BrowserRouter initialEntries={[]}>
+      <Route>
+        <InventoryListItem {...item} />
+      </Route>
+    </BrowserRouter>
+  )
+  cy.contains('.inventory_item_name', item.name)
+})
+```
+
++++
+
+![Cy component test](./img/cy-name.png)
+
++++
+
+## Todo: Simply the test
+
+Instead of global `cy.mount` command use `cy.mountWithRouter` from `cypress/support/component.jsx`
+
+```js
+Cypress.Commands.add('mountWithRouter', (Component) => {
+  return mount(
+    <BrowserRouter initialEntries={[]}>
+      <Route>{Component}</Route>
+    </BrowserRouter>
+  )
+})
+```
+
+Update your test to use `cy.mountWithRouter`
+
++++
+
+```js
+// src/components/InventoryListItem.cy.jsx
+
+it('loads one item', () => {
+  const item = InventoryData[3]
+  cy.mountWithRouter(<InventoryListItem {...item} />)
+  cy.contains('.inventory_item_name', item.name)
+})
+```
+
++++
+
+## Playwright mount
+
+```js
+// src/components/InventoryListItem.spec.jsx
+test('InventoryListItem loads one item', async ({ mount }) => {
+  // take one of the items loaded from the inventory data list
+  // and mount the "InventoryListItem" component
+  // inside a router
+  // <BrowserRouter initialEntries={[]}><Route>...</Route></BrowserRouter>
+  const item = InventoryData[3]
+  // assert the component is visible
+  // assert that the item's name is there
+})
+```
+
++++
+
+```js
+test('InventoryListItem loads one item', async ({ mount }) => {
+  const item = InventoryData[3]
+  const component = await mount(
+    <BrowserRouter initialEntries={[]}>
+      <Route>
+        <InventoryListItem {...item} />
+      </Route>
+    </BrowserRouter>
+  )
+  await expect(component).toBeVisible()
+  await expect(component.locator('.inventory_item_name')).toHaveText(item.name)
+})
+```
+
++++
+
+![Pw test](./img/pw-name.png)
+
++++
+
+**Todo:** use helper function to mount inside a Router
+
+```js
+// Helper function to mount the component inside a router
+// to avoid repeating the router setup in each test
+// Note: in the real application, you probably would use Playwright Test Fixtures
+// https://playwright.dev/docs/test-fixtures
+function mountWithRouter(mountFn, component) {}
+
+test('InventoryListItem loads one item (mount helper)', async ({ mount }) => {
+  // rewrite the above test to use the "mountWithRouter" helper function
+  // to avoid repeating the router setup
+  const item = InventoryData[3]
+  // confirm the component is visible
+  // and has the correct item name
+})
+```
+
++++
+
+```js
+function mountWithRouter(mountFn, component) {
+  return mountFn(
+    <BrowserRouter initialEntries={[]}>
+      <Route>{component}</Route>
+    </BrowserRouter>
+  )
+}
+
+test('InventoryListItem loads one item (mount helper)', async ({ mount }) => {
+  const item = InventoryData[3]
+  const component = await mountWithRouter(
+    mount,
+    <InventoryListItem {...item} />
+  )
+  await expect(component).toBeVisible()
+  await expect(component.locator('.inventory_item_name')).toHaveText(item.name)
+})
+```
+
+**Tip:** for a better way of doing this see [Pw Test fixtures](https://playwright.dev/docs/test-fixtures)
+
+---
+
 ## 🏁 Conclusions
 
 - Cypress can run component tests the same way as its regular E2E tests
