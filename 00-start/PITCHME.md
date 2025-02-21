@@ -51,6 +51,8 @@ $ npx available-versions playwright
 
 ## Todo: scaffold Playwright
 
+- clone repo `https://github.com/bahmutov/cy-vs-pw-example-todomvc`
+
 In the folder with [bahmutov/cy-vs-pw-example-todomvc](https://github.com/bahmutov/cy-vs-pw-example-todomvc) repo
 
 ```

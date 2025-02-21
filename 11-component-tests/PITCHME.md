@@ -957,11 +957,176 @@ test('InventoryListItem loads one item (mount helper)', async ({ mount }) => {
 
 ---
 
+## Communication between the component and the test
+
+- clone repo `https://github.com/bahmutov/taste-the-sauce-vite`
+- check out branch `g8`
+- `npm install`
+- `npx playwright install`
+
++++
+
+## Price format component
+
+```js
+// src/components/InputPrice.jsx
+const InputPrice = ({ priceFormatter }) => {
+  const formatter = priceFormatter || defaultPriceFormatter
+  const [price, setPrice] = useState()
+
+  return (
+    <div className="input-price">
+      <input
+        type="text"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        placeholder="Enter price (cents)"
+      />{' '}
+      {!isNaN(price) && <span className="price">{formatter(price)}</span>}
+    </div>
+  )
+}
+
+export default InputPrice
+```
+
++++
+
+## Cypress: test the default format function
+
+```js
+// src/components/InputPrice.cy.jsx
+it('renders the InputPrice component', () => {
+  // mount the component using the default price formatter
+  cy.mount(<InputPrice />)
+  // initially the formatted price is not displayed
+  cy.get('.price').should('not.exist')
+  // type the "9" and confirm the formatted price is "$0.09"
+  cy.get('[placeholder="Enter price (cents)"]').type('9')
+  cy.get('.price').should('be.visible').and('have.text', '$0.09')
+  // type another "9" and confirm the formatted price is "$0.99"
+  cy.get('[placeholder="Enter price (cents)"]').type('9')
+  cy.get('.price').should('have.text', '$0.99')
+})
+```
+
+The test is working.
+
++++
+
+## Finish the second test
+
+Test the custom format function
+
+```js
+it('renders the InputPrice component with custom formatter', () => {
+  const customFormatter = (price) => `Price: ${price} cents`
+  // mount the component with a custom format function above
+  // follow the test above and check if the formatted price is displayed
+})
+```
+
++++
+
+## Cypress solution
+
+```js
+it('renders the InputPrice component with custom formatter', () => {
+  const customFormatter = (price) => `Price: ${price} cents`
+  // mount the component with a custom format function above
+  // follow the test above and check if the formatted price is displayed
+  cy.mount(<InputPrice priceFormatter={customFormatter} />)
+  cy.get('.price').should('not.exist')
+  cy.get('[placeholder="Enter price (cents)"]').type('9')
+  cy.get('.price').should('be.visible').and('have.text', 'Price: 9 cents')
+  cy.get('[placeholder="Enter price (cents)"]').type('9')
+  cy.get('.price').should('have.text', 'Price: 99 cents')
+})
+```
+
++++
+
+![Cypress finished test](./img/cy-format.png)
+
++++
+
+## Playwright: test the default format function
+
+```js
+// src/components/InputPrice.spec.jsx
+test('renders the InputPrice component', async ({ mount }) => {
+  // mount the component using the default price formatter
+  const component = await mount(<InputPrice />)
+  // initially the formatted price is not displayed
+  await expect(component.locator('.price')).not.toBeVisible()
+  // type the "9" and confirm the formatted price is "$0.09"
+  await component.getByPlaceholder('Enter price (cents)').fill('9')
+  await expect(component.locator('.price')).toHaveText('$0.09')
+  // type another "9" and confirm the formatted price is "$0.99"
+  await component.getByPlaceholder('Enter price (cents)').fill('99')
+  await expect(component.locator('.price')).toHaveText('$0.99')
+})
+```
+
++++
+
+## Todo: finish testing the custom format function
+
+```js
+test('renders the InputPrice component with custom formatter', async ({
+  mount
+}) => {
+  const customFormatter = (price) => `Price: ${price} cents`
+  // mount the component with a custom format function above
+  // follow the test above and check if the formatted price is displayed
+})
+```
+
++++
+
+## Solution attempt
+
+```js
+test('renders the InputPrice component with custom formatter', async ({
+  mount
+}) => {
+  const customFormatter = (price) => `Price: ${price} cents`
+  // mount the component with a custom format function above
+  // follow the test above and check if the formatted price is displayed
+  const component = await mount(<InputPrice priceFormatter={customFormatter} />)
+  await expect(component.locator('.price')).not.toBeVisible()
+
+  await component.getByPlaceholder('Enter price (cents)').fill('9')
+  await expect(component.locator('.price')).toHaveText('Price: 9 cents')
+  await component.getByPlaceholder('Enter price (cents)').fill('99')
+  await expect(component.locator('.price')).toHaveText('Price: 99 cents')
+})
+```
+
++++
+
+![Pw solution does not work](./img/pw-format.png)
+
++++
+
+## Pw component <-> test communication
+
+Pw has to switch every synchronous call to a Promise-returning call to communicate between the browser (component) and spec (Node)
+
+```html
+<!-- normal component execution in the browser: formatter is in the browser -->
+<span className="price">{formatter(price) // yields a string}</span>
+<!-- playwright test execution: formatter is in the spec file -->
+<span className="price">{formatter(price) // yields Promise<string>}</span>
+```
+
+---
+
 ## 🏁 Conclusions
 
 - Cypress can run component tests the same way as its regular E2E tests
 - Playwright creates a separate page with the component and "bridges" spec code to interact with the component <!-- .element: class="fragment" -->
 - Cypress has functional assertions <!-- .element: class="fragment" -->
-- Cypress component test interacts much more directly with the component <!-- .element: class="fragment" -->
+- Cypress interacts much more directly with the component <!-- .element: class="fragment" -->
 
 ➡️ Go to the [end](?p=end) chapter
