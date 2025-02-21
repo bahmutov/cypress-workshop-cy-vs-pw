@@ -51,11 +51,14 @@ I will try.
 
 ## Schedule 🕰
 
+2 Days (Mon, Tue)
+
 - 9:00 start
 - 10:30 coffee break
 - 12:00 lunch break
+- 13:00 afternoon start
 - 14:30 coffee break
-- ~16:00 the end
+- ~17:00 the end
 - time for questions during the workshop and after each section
 
 +++
