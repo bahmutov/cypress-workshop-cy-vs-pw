@@ -660,3 +660,33 @@ Cypress network request delay example
 - 🎓 [Cypress Network Testing Exercises](https://cypress.tips/courses/network-testing) course
 
 ➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [07-clock](?p=07-clock) chapter
+
++++
+
+## Write E2E tests
+
+using Cypress and / or Playwright
+
+```text
+Adding todos
+   - add 1 todo
+   - load all todos from a JSON fixture and add
+   - add 1 todo without resetting the DB
+   - clearing the input field
+   - trims the input text
+Editing todos
+  - edit an existing item text
+Deleting todos
+  - delete 1 todo
+  - delete multiple todos
+Completing todos
+  - check one todo
+  - clear completed todos
+Application routing
+  - item filters
+  - "Back" button navigation
+  - highlighted filter
+Misc
+  - zero todos
+  - the number of todos to complete
+```

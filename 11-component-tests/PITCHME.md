@@ -1130,3 +1130,25 @@ Pw has to switch every synchronous call to a Promise-returning call to communica
 - Cypress interacts much more directly with the component <!-- .element: class="fragment" -->
 
 ➡️ Go to the [end](?p=end) chapter
+
++++
+
+## Write E2E + Component tests
+
+using Cypress and / or Playwright
+
+```text
+# E2E candidates               # Component test candidates
+Cart                           src/pages/InventoryItem.jsx
+  - items added, deleted         - shows item details
+Cart page                        - adds an item to the cart
+  - zero items                   - stores the cart in the local storage
+  - several items                - handles non-existent item
+  - navigates to the item      src/components/InventoryListItem.jsx
+Checkout flow                    - adds an item to the cart
+  - buy an item                src/components/ErrorMessage.jsx
+Inventory page                   - shows an error message
+  - has all the items            - reacts to the user click
+  - navigation                 src/utils/Sorting.js
+  - sorting                      - unit tests for the sorting functions
+```

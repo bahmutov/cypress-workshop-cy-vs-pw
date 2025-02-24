@@ -73,6 +73,29 @@ Please clone these repositories, since we will be using through the workshop:
 
 +++
 
+## Day 1
+
+- example TodoMVC
+  - web app, data store, REST calls
+- basic tests using Pw and Cy
+- using JSON fixture files
+- making HTTP requests
+- network spying and stubbing, fixtures
+- writing E2E tests practice time (end of network chapter)
+  - "TodoMVC app"
+
++++
+
+## Day 2
+
+- controlling the application clock
+- assertions and retries
+- component testing (React)
+- writing E2E and component tests practice time
+  - "Swag store" app
+
+---
+
 ## Poll 1 🗳️: have you used Cypress before?
 
 - This is my first time
