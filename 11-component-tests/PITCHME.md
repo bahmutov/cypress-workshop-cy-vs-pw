@@ -1133,6 +1133,12 @@ Pw has to switch every synchronous call to a Promise-returning call to communica
 
 +++
 
+![Component testing showdown](./img/showdown.png)
+
+Learn more: 📺 "Component Testing With Murat Ozcan: Cy vs Pw vs Vitest" [https://youtu.be/SPSLeGUpdYA](https://youtu.be/SPSLeGUpdYA)
+
++++
+
 ## Write E2E + Component tests
 
 using Cypress and / or Playwright
