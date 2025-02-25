@@ -149,4 +149,4 @@ Playwright: `page.clock.setFixedTime(new Date(2021, 3, 14))`
 - set any date
 - pause / fast-forward timers
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [08-retries](?p=08-retries) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [08-retries](?p=08-retries) chapter
