@@ -14,7 +14,7 @@ Jump to: [00-start](?p=00-start), [01-basic](?p=01-basic), [02-adding-items](?p=
 - Ex-Distinguished Engineer at Cypress
 - actively using Cypress since 2016
 - [gleb.dev](https://gleb.dev)
-- [@bahmutov](https://twitter.com/bahmutov)
+- [🦋 bahmutov.bsky.social](bsky.app/profile/bahmutov.bsky.social)
 - [https://glebbahmutov.com/blog/tags/cypress/](https://glebbahmutov.com/blog/tags/cypress/) 300+ Cypress blog posts
 - [https://www.youtube.com/glebbahmutov](https://www.youtube.com/glebbahmutov) 700+ Cypress videos
 - [cypress.tips](https://cypress.tips) with links, search, my courses
