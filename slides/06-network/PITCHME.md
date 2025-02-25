@@ -659,7 +659,7 @@ Cypress network request delay example
 - network caching might affect the testing
 - 🎓 [Cypress Network Testing Exercises](https://cypress.tips/courses/network-testing) course
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [07-clock](?p=07-clock) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [07-clock](?p=07-clock) chapter
 
 +++
 

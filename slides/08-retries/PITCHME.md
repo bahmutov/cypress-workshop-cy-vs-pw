@@ -260,4 +260,4 @@ Prices should be $1, $4, and $59
 - commands vs assertions
 - query again elements to make stable assertions
 
-➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-basics#contents) or jump to the [09-app-access](?p=09-app-access) chapter
+➡️ Pick the [next section](https://github.com/bahmutov/cypress-workshop-cy-vs-pw#contents) or jump to the [09-app-access](?p=09-app-access) chapter
