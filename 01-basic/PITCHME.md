@@ -198,6 +198,10 @@ cy.get('.todo-list li').should('have.length', 3)
 
 **Question:** how do you change the command's timeout?
 
++++
+
+![Cy solution](./img/cy-3.png)
+
 ---
 
 **Question:** what do you see at the end of the test in Playwright? In Cypress?
