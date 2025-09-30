@@ -40,6 +40,8 @@ $ npx available-versions playwright
 1.47.2                      3 days     latest
 ```
 
+**Try it:** check the current latest Cy and Pw versions
+
 +++
 
 ## Release frequency
