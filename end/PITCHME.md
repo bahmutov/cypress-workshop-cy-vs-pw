@@ -48,4 +48,4 @@ Thank you for learning E2E testing with [Cypress.io](https://www.cypress.io) and
 
 - **My resources** https://cypress.tips/courses/cypress-vs-playwright is the full hands-on course with lessons and videos
 
-🙏 Please: tell the conference organizes if you enjoyed the workshop
+🙏 Please: tell the conference organizers if you enjoyed the workshop
