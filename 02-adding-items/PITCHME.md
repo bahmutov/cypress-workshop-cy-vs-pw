@@ -298,7 +298,7 @@ Cypress solution
 
 ---
 
-## 🏁 Adding
+## 🏁 Adding items
 
 - make your tests fail on the unexpected app errors
 - select elements using best practices

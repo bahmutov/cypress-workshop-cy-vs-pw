@@ -94,12 +94,14 @@ await expect(todoLabels).toHaveText([
 ])
 ```
 
-In Cypress I would use [cypress-map](https://github.com/bahmutov/cypress-map) to write similar but more limited
+In Cypress I would use [cypress-map](https://github.com/bahmutov/cypress-map) to do it
 
 ```js
-cy.get(todoLabels)
-  .map('innerText')
-  .should('deep.equal', ['Write code', 'Write tests', 'Make tests pass'])
+cy.get(todoLabels).should('read', [
+  'Write code',
+  'Write tests',
+  'Make tests pass'
+])
 ```
 
 ---

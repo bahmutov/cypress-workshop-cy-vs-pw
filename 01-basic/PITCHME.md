@@ -9,6 +9,8 @@
 
 ---
 
+## Cleanup
+
 - clean up the existing code
   - `git reset --hard`
   - `git clean -d -f`
@@ -17,7 +19,7 @@
 
 +++
 
-If necessary, run `npx playwright install` to install browsers
+**Tip:** If necessary, run `npx playwright install` to install browsers
 
 ![Playwright missing a browser](./img/pw-missing-browser.png)
 
@@ -206,6 +208,8 @@ cy.get('.todo-list li').should('have.length', 3)
 
 **Question:** what do you see at the end of the test in Playwright? In Cypress?
 
+📝 Read https://glebbahmutov.com/blog/cy-vs-pw-browser/ for more.
+
 ---
 
 ## Make HTTP request
@@ -220,9 +224,15 @@ cy.get('.todo-list li').should('have.length', 3)
 
 Our app loads the data from `data.json` file. We want to clean up the data before each test. We can do it by making a HTTP call:
 
-```
+```shell
+# using HTTPie client https://httpie.io/
 $ http :3000/reset todos:=[]
 HTTP/1.1 200 OK
+
+# using curl
+$ curl --header "Content-Type: application/json" \
+  -d '{"todos":[]}' \
+  http://localhost:3000/reset
 ```
 
 The file `data.json` should have an empty "todo" list.
