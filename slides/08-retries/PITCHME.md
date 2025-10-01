@@ -19,11 +19,13 @@ Cypress assertion
 
 +++
 
-What if you cannot use `have.length.greaterThan`?
+What if you cannot use `have.length.greaterThan`? We can write our own assertion logic
 
 ```js
 cy.get(todos).should(($el) => {
-  expect($el.length, 'more than 2 elements').to.be.greaterThan(2)
+  if ($el.length <= 2) {
+    throw new Error('Need at least 2 elements')
+  }
 })
 ```
 
@@ -98,7 +100,7 @@ How can you confirm the prices are sorted?
 
 +++
 
-From each Todo item you need:
+**Todo:** From each Todo item you need:
 
 - grab its text
 - use a regular expression to find the $<price> match

@@ -136,7 +136,18 @@ Cypress solution
 
 ---
 
-## Set specific date and time
+## Bonus: Set specific date and time
+
+Test the current date shown in the footer
+
+```html
+<p>cy-vs-pw-example-todomvc <span id="date"></span></p>
+<script>
+  document.getElementById('date').innerText = new Date().toLocaleString()
+</script>
+```
+
++++
 
 Cypress: `cy.clock(new Date(2021, 3, 14))`
 

@@ -663,7 +663,7 @@ Cypress network request delay example
 
 +++
 
-## Write E2E tests
+## Write E2E tests ideas
 
 using Cypress and / or Playwright
 
