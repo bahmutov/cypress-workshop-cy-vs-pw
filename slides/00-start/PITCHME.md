@@ -157,6 +157,12 @@ $ git reset --hard
 $ git clean -d -f
 ```
 
+💡 You can make a shell alias
+
+```
+alias gnuke="git reset --hard && git clean -df"
+```
+
 ---
 
 ## Todo: install Cypress
@@ -237,6 +243,8 @@ it('has title', () => {
 
 💡 Run the test while editing the spec with `npx cypress open`
 
+**Important:** start the application in the separate terminal
+
 Note:
 
 ```js
@@ -295,6 +303,8 @@ module.exports = defineConfig({
 
 - look at the `///` comment. This tells your code editor about Cypress globals like `cy`
 - the comment `// @ts-check` tells your code editor to show any type mismatches in the specs
+
+**Question:** why do we need to "explain" to Cypress the types? How is this different from Playwright? Take a look at https://github.com/bahmutov/local-cypress
 
 ---
 

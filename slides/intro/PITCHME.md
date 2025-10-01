@@ -61,19 +61,19 @@ Please clone these repositories, since we will be using through the workshop:
 
 ## Schedule 🕰
 
-2 Days (Mon, Tue)
+1 Day
 
 - 9:00 start
 - 10:30 coffee break
-- 12:00 lunch break
-- 13:00 afternoon start
-- 14:30 coffee break
-- ~17:00 the end
+- 12:30 lunch break
+- 13:30 afternoon start
+- 15:00 coffee break
+- ~16:30 the end
 - time for questions during the workshop and after each section
 
 +++
 
-## Day 1
+## Test topics
 
 - example TodoMVC
   - web app, data store, REST calls
@@ -83,11 +83,6 @@ Please clone these repositories, since we will be using through the workshop:
 - network spying and stubbing, fixtures
 - writing E2E tests practice time (end of network chapter)
   - "TodoMVC app"
-
-+++
-
-## Day 2
-
 - controlling the application clock
 - assertions and retries
 - component testing (React)
@@ -124,6 +119,7 @@ We will use at first the app in the repo [bahmutov/cy-vs-pw-example-todomvc](htt
 - `git checkout a1` for example
 - `npm install`
 - `npx playwright install` (if using Playwright in the current lesson)
+- `npx cypress install` (if needed for Cypress)
 
 ---
 
