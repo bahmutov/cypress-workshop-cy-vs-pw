@@ -10,7 +10,7 @@
 - clean up the existing code
   - `git reset --hard`
   - `git clean -d -f`
-- `git checkout a7`
+- `git checkout a8`
 - `npm install`
 
 ---
