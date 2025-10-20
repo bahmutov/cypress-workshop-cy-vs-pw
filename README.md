@@ -41,22 +41,22 @@ The slides can be seen locally by running `npm start` and opening `localhost:310
 ## Contents
 
 <!-- prettier-ignore-start -->
-Topic | The Markdown | See the slides
----|---|---
-Introduction | [intro.md](slides/intro/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=intro)
-Start testing | [00-start.md](slides/00-start/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=00-start)
-Basic tests | [01-basic.md](slides/01-basic/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=01-basic)
-Adding items | [02-adding-items.md](slides/02-adding-items/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=02-adding-items)
-Completing items | [03-completing-items.md](slides/03-completing-items/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=03-completing-items)
-Test UI | [04-test-ui.md](slides/04-test-ui/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=04-test-ui)
-Hover | [05-hover.md](slides/05-hover/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=05-hover)
-Network testing | [06-network.md](slides/06-network/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=06-network)
-Clock | [07-clock.md](slides/07-clock/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=07-clock)
-Retries | [08-retries.md](slides/08-retries/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=08-retries)
-App access | [09-app-access.md](slides/09-app-access/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=09-app-access)
-Continuous integration | [10-ci.md](slides/10-ci/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=10-ci)
-Component tests | [11-component-tests.md](slides/11-component-tests/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=11-component-tests)
-The end | [end](slides/end/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=end)
+Topic | The Markdown | See the slides | PDF
+---|---|---|---
+Introduction | [intro.md](slides/intro/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=intro) | [pdf](./pdf/intro.pdf)
+Start testing | [00-start.md](slides/00-start/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=00-start) | [pdf](./pdf/00-start.pdf)
+Basic tests | [01-basic.md](slides/01-basic/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=01-basic) | [pdf](./pdf/01-basic.pdf)
+Adding items | [02-adding-items.md](slides/02-adding-items/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=02-adding-items) | [pdf](./pdf/02-adding-items.pdf)
+Completing items | [03-completing-items.md](slides/03-completing-items/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=03-completing-items) | [pdf](./pdf/03-completing-items.pdf)
+Test UI | [04-test-ui.md](slides/04-test-ui/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=04-test-ui) | [pdf](./pdf/04-test-ui.pdf)
+Hover | [05-hover.md](slides/05-hover/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=05-hover) | [pdf](./pdf/05-hover.pdf)
+Network testing | [06-network.md](slides/06-network/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=06-network) | [pdf](./pdf/06-network.pdf)
+Clock | [07-clock.md](slides/07-clock/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=07-clock) | [pdf](./pdf/07-clock.pdf)
+Retries | [08-retries.md](slides/08-retries/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=08-retries) | [pdf](./pdf/08-retries.pdf)
+App access | [09-app-access.md](slides/09-app-access/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=09-app-access) | [pdf](./pdf/09-app-access.pdf)
+Continuous integration | [10-ci.md](slides/10-ci/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=10-ci) | [pdf](./pdf/10-ci.pdf)
+Component tests | [11-component-tests.md](slides/11-component-tests/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=11-component-tests) | [pdf](./pdf/11-component-tests.pdf)
+The end | [end](slides/end/PITCHME.md) | [link](https://glebbahmutov.com/cypress-workshop-cy-vs-pw/?p=end) | [pdf](./pdf/end.pdf)
 <!-- prettier-ignore-end -->
 
 ## Additional information
