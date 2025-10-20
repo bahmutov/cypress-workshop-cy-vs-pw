@@ -77,10 +77,8 @@ fetch(markdownFilename)
         hashOneBasedIndex: true
       })
       .then(() => {
-        if (window.Cypress) {
-          // expose the Reveal object to Cypress tests
-          // to allow waiting for it to be ready
-          window.Reveal = Reveal
-        }
+        // expose the Reveal global object
+        // so we can print the slides using decktape
+        window.Reveal = deck
       })
   })
