@@ -78,6 +78,7 @@ If your organization is interested in learning about Cypress in depth, please co
 - https://github.com/bahmutov/cypress-visual-testing-workshop
 - https://github.com/bahmutov/cypress-workshop-ci
 - https://github.com/bahmutov/cypress-workshop-socketio-chat
+- https://github.com/bahmutov/cypress-workshop-cy-vs-pw-half-day
 
 Of course, I can customize a workshop to your needs. Take a look at https://cypress.tips/workshops
 
