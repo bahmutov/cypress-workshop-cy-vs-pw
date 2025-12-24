@@ -6,6 +6,17 @@
 
 This workshop teaches you how to write Cypress and Playwright tests using the same hands-on exercises.
 
+- example TodoMVC
+  - web app, data store, REST calls
+- basic tests using Pw and Cy
+- using JSON fixture files
+- making HTTP requests
+- network spying and stubbing, fixtures
+- controlling the application clock
+- assertions and retries
+- component testing (React)
+- any questions
+
 ## Requirements
 
 - Any computer: Mac, Windows, Linux
